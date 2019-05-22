@@ -1,77 +1,137 @@
-@extends('layouts.app')
+@extends('layouts.payment')
+
+@section('title')
+Registro
+@endsection
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+    <div class="row">
+        {{-- Inicia formulario de usuario --}}
+        <form action="{{ route('openPay.store') }}" method="POST" id="payment-form">
+            @csrf
+            
+            <div class="col-md-12">
+                <div class="card my-4">
+                    <div class="card-header bg-danger">
+                        <h3 class="text-white mb-0">
+                            Datos del usuario
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+            <div class="col-md-12">
+                <div class="card my-4">
+                  <div class="card-header bg-danger">
+                    <h3 class="text-white mb-0">
+                        Tarjeta de crédito o débito
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Tarjetas de crédito</h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <img src="{{ asset('images/openPay/cards1.png') }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Tarjetas de débito</h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <img src="{{ asset('images/openPay/cards2.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            {{-- Inicia formulario de Pago --}}
+                            <input type="hidden" name="token_id" id="token_id">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="headline">Nombre del titular</label>
+                                  <input class="form-control" id="headline" type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" name="name" data-openpay-card="holder_name">
+                              </div>
+
+                              <div class="form-group col-md-6">
+                                  <label for="card_number">Número de tarjeta</label>
+                                  <input id="card_number" class="form-control" type="text" autocomplete="off" data-openpay-card="card_number">
+                              </div>
+
+                              <div class="col-md-6">
+                                  <p>Fecha de Expiración</p>
+                              </div>
+                              <div class="col-md-6">
+                                  <label for="cvv2">Código de seguridad</label>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                  <input class="form-control" type="text" placeholder="Mes" data-openpay-card="expiration_month">
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                  <input class="form-control" type="text" placeholder="Año" data-openpay-card="expiration_year">
+                              </div>
+
+                              <div class="form-group col-md-6">
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <input id="cvv2" class="form-control" type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <img src="{{ asset('images/openPay/cvv.png') }}" alt="">
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                  <div class="row">
+                                      <div class="col-md-5">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <p class="mb-0 text-center">Transacciones realizadas vía:</p>
+                                              </div>
+                                              <div class="col-md-12 text-center">
+                                                  <img src="{{ asset('images/Openpay/openpay.png') }}">
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-7">
+                                          <div class="row">
+                                              <div class="col-md-2">
+                                                  <img src="{{ asset('images/openpay/security.png') }}" class="mt-3">
+                                              </div>
+                                              <div class="col-md-10">
+                                                  <p>
+                                                      Tus pagos se realizan de forma segura con encriptación de 256 bits
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6 d-flex align-items-center">
+                                  <a class="text-white btn btn-danger btn-block" id="pay-button">Pagar</a>
+                              </div>
+                          </div>
+                      </div>
+                      {{-- Termina formulario de pago --}}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </form>
 </div>
 @endsection

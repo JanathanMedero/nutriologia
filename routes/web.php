@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/charge', 'OpenPayController@store')->name('openPay.store');
+
+Route::get('/dashboard', 'AdminController@dashboard')->name('Dashboard');
