@@ -29,7 +29,7 @@
             $('#pay-button').on('click', function(event) {
                 event.preventDefault();
                 $("#pay-button").prop( "disabled", true);
-                OpenPay.token.extractFormAndCreate('payment-form', sucess_callbak, error_callbak);
+                OpenPay.token.extractFormAndCreate('payment-form', sucess_callbak);
             });
 
             var sucess_callbak = function(response) {
@@ -38,11 +38,12 @@
               $('#payment-form').submit();
             };
 
-            var error_callbak = function(response) {
-                var desc = response.data.description != undefined ? response.data.description : response.message;
-                alert("ERROR [" + response.status + "] " + desc);
-                $("#pay-button").prop("disabled", false);
-            };
+            // var error_callbak = function(response) {
+            //     var message = response.data.description != undefined ? response.data.description : response.message;
+            //     console.log(message.card_number);
+            //     alert(message);
+            //     $("#pay-button").prop("disabled", false);
+            // };
 
         });
     </script>
@@ -74,11 +75,11 @@
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
                         </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
                         </li>
                         @endif
                         @else

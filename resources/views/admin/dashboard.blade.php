@@ -90,10 +90,9 @@ AdminLTE 3 | Dashboard
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-th"></i>
+              <i class="fa fa-users" aria-hidden="true"></i>
               <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
+                Usuarios
               </p>
             </a>
           </li>
@@ -116,7 +115,7 @@ AdminLTE 3 | Dashboard
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
+              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
