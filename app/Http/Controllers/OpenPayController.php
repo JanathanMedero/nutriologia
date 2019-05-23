@@ -18,7 +18,7 @@ class OpenPayController extends Controller
 	}
 
 	public function store(RegisterRequest $request){
-		
+
 		Openpay::setSandboxMode(true);
 		$openpay = Openpay::getInstance($this->id, $this->secret);
 
@@ -63,7 +63,7 @@ class OpenPayController extends Controller
 			]);
 			DB::commit(); 
 
-			return 'Registro exitoso';
+			return redirect()->route('Dashboard');
 
 		}catch(\Exception $e){ 
 				DB::rollback();

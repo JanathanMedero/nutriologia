@@ -20,4 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/charge', 'OpenPayController@store')->name('openPay.store');
 
-Route::get('/dashboard', 'AdminController@dashboard')->name('Dashboard');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', 'AdminController@dashboard')->name('Dashboard');
+    Route::get('/patients', 'PatientController@index')->name('patients.index');
+});
