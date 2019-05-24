@@ -26,7 +26,9 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth::user();
+
+        return view('patients.create', compact('user'));
     }
 
     /**

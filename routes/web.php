@@ -23,4 +23,5 @@ Route::post('/charge', 'OpenPayController@store')->name('openPay.store');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('Dashboard');
     Route::get('/patients', 'PatientController@index')->name('patients.index');
+    Route::get('/patients/new-patient', 'PatientController@create')->name('patients.create');
 });

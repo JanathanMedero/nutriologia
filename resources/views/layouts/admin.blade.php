@@ -199,5 +199,6 @@
 {{-- Datatables --}}
 <script src="{{ asset('admin-lte/datatables/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('admin-lte/datatables/dataTables.bootstrap4.js') }}"></script>
+@yield('extra-js')
 </body>
 </html>

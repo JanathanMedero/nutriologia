@@ -11,7 +11,7 @@ Pacientes
 		<h1>Pacientes</h1>
 	</div>
 	<div class="col-md-2 mt-2 text-center">
-		<a href="#" class="btn btn-primary"><i class="fa fa-user"></i> Nuevo Paciente</a>
+		<a href="{{ route('patients.create') }}" class="btn btn-primary"><i class="fa fa-user"></i> Nuevo Paciente</a>
 	</div>
 	{{-- Inicia tabla de pacientes --}}
 	<div class="col-md-12">
