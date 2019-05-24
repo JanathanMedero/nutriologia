@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Mail\PaymentSuccess;
 use App\User;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Openpay;
 
 class OpenPayController extends Controller
@@ -53,7 +55,7 @@ class OpenPayController extends Controller
 			$subscription = $customer->subscriptions->add($subscriptionDataRequest);
 
     	//Registramos el cliente en la base de datos
-			User::create([
+			$user = User::create([
 				'name' => $request->name_nutriologist,
 				'picture' => 'default.png',
 				'no_registry' => $request->no_registry,
@@ -61,6 +63,10 @@ class OpenPayController extends Controller
 				'email' => $request->email,
 				'password' => Hash::make($request->password),
 			]);
+
+		//Mandamos el correo de confirmación de pago
+			Mail::to($user->email)->send(new PaymentSuccess($user));
+
 			DB::commit(); 
 
 			return redirect()->route('Dashboard');
