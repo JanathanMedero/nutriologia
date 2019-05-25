@@ -71,6 +71,21 @@ Nuevo Paciente
 						</div>
 
 						<div class="form-group col-md-4">
+							<label for="trimester">Trimestre (Embarazo)</label>
+							<input type="text" class="form-control" id="trimester" placeholder="Ingrese el trimestre del paciente" value="{{ old('trimester') }}" name="trimester" disabled>
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="sdg">SDG (Embarazo)</label>
+							<input type="text" class="form-control" id="sdg" placeholder="Ingrese el SDG del paciente" value="{{ old('sdg') }}" name="sdg" disabled>
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="semester">Semestre (Lactancia)</label>
+							<input type="text" class="form-control" id="semester" placeholder="Ingrese el semestre del paciente" value="{{ old('semester') }}" name="semester" disabled>
+						</div>
+
+						<div class="form-group col-md-4">
 							<label for="size">Talla del paciente</label>
 							<input type="text" class="form-control" id="size" placeholder="Ingrese la talla del paciente" value="{{ old('size') }}" name="size">
 						</div>
@@ -98,6 +113,20 @@ Nuevo Paciente
 <script src="{{ asset('admin-lte/input-mask/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('admin-lte/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
 <script src="{{ asset('admin-lte/input-mask/jquery.inputmask.extensions.js') }}"></script>
+<script>
+	document.getElementById('femenino').onchange = function() {
+    document.getElementById('trimester').disabled = !this.checked;
+    document.getElementById('semester').disabled = !this.checked;
+    document.getElementById('sdg').disabled = !this.checked;
+	};
+
+	document.getElementById('masculino').onchange = function() {
+    document.getElementById('trimester').disabled = this.checked;
+    document.getElementById('semester').disabled = this.checked;
+    document.getElementById('sdg').disabled = this.checked;
+	};
+
+</script>
 <script>
 	$(function () {
     //Initialize Select2 Elements

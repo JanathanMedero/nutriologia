@@ -165,3 +165,8 @@ Registro
   </form>
 </div>
 @endsection
+
+@section('extra-js')
+<script src="{{ asset('/js/sweetalert.min.js') }}"></script>
+@endsection
+@include('sweet::alert')

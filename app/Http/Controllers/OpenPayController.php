@@ -7,6 +7,7 @@ use App\Mail\PaymentSuccess;
 use App\User;
 use DB;
 use Hash;
+use Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Openpay;
@@ -26,7 +27,10 @@ class OpenPayController extends Controller
 
 		try{ DB::beginTransaction(); 
 
-			  	// Creamos el cliente
+		// Procesando pago con sweetAlert
+			alert()->message('Message', 'Optional Title');
+
+	  	// Creamos el cliente
 			$customerData = array(
 				'name' => $request->name_nutriologist,
 				'email' => $request->email
@@ -69,7 +73,7 @@ class OpenPayController extends Controller
 
 			DB::commit(); 
 
-			return redirect()->route('Dashboard');
+			return redirect()->route('Dashboard')->with('success', 'Pago realizado correctamente');
 
 		}catch(\Exception $e){ 
 				DB::rollback();

@@ -31,6 +31,6 @@ class PaymentSuccess extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->view('emails.PaymentSuccess')
-                ->subjetct('Confirmación de pago');
+                ->subject('Confirmación de pago');
     }
 }

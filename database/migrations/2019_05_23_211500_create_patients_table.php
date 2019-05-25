@@ -25,8 +25,9 @@ class CreatePatientsTable extends Migration
             $table->integer('phone_2');
             $table->integer('email');
             $table->boolean('gender');
-            $table->integer('pregnancy')->nullable();
-            $table->integer('lactation')->nullable();
+            $table->integer('trimester')->nullable();
+            $table->integer('semester')->nullable();
+            $table->integer('sdg')->nullable();
             $table->double('weight', 8,2);
             $table->double('size', 3,1);
             $table->text('notes');

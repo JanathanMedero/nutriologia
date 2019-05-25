@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-AdminLTE 3 | Dashboard
+Bienvenido {{ $user->name }}
 @endsection
 
 @section('content')
