@@ -22,6 +22,9 @@ Route::post('/charge', 'OpenPayController@store')->name('openPay.store');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('Dashboard');
+
+    // Crud Pacientes
     Route::get('/patients', 'PatientController@index')->name('patients.index');
     Route::get('/patients/new-patient', 'PatientController@create')->name('patients.create');
+    Route::post('/patients/new-patient', 'PatientController@store')->name('patients.store');
 });

@@ -3,14 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    {{-- OpenPay Styles --}}
     <link rel="stylesheet" href="{{ asset('css/OpenPayStyles.css') }}">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
+    {{-- SweetAlert 2 --}}
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 
     {{-- Scripts de OpenPay --}}
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -29,7 +28,7 @@
             $('#pay-button').on('click', function(event) {
                 event.preventDefault();
                 $("#pay-button").prop( "disabled", true);
-                OpenPay.token.extractFormAndCreate('payment-form', sucess_callbak);
+                OpenPay.token.extractFormAndCreate('payment-form', sucess_callbak, error_callbak);
             });
 
             var sucess_callbak = function(response) {
@@ -38,12 +37,22 @@
               $('#payment-form').submit();
             };
 
-            // var error_callbak = function(response) {
-            //     var message = response.data.description != undefined ? response.data.description : response.message;
-            //     console.log(message.card_number);
-            //     alert(message);
-            //     $("#pay-button").prop("disabled", false);
-            // };
+             var error_callbak = function(response) {
+                 var message = response.data.description != undefined ? response.data.description : response.message;
+                 if(message == 'card_number is required, card_number is required'){
+                     message = 'Ingrese un número de tarjeta valido'
+                 }
+                 if(message == 'The expiration date has already passed'){
+                     message = 'El año de su tarjeta ha expirado'
+                 }
+                 if(message == 'The CVV2 security code is required'){
+                     message = 'El código de seguridad es requerido'
+                 }
+
+                 console.log(message.card_number);
+                 alert(message);
+                 $("#pay-button").prop("disabled", false);
+             };
 
         });
     </script>
@@ -111,5 +120,7 @@
     </main>
 </div>
 @yield('extra-js')
+@include('sweet::alert')
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

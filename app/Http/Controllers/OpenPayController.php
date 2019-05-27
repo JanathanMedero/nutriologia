@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Mail\PaymentSuccess;
 use App\User;
 use DB;
+use Auth;
 use Hash;
 use Alert;
 use Illuminate\Http\Request;
@@ -26,9 +27,6 @@ class OpenPayController extends Controller
 		$openpay = Openpay::getInstance($this->id, $this->secret);
 
 		try{ DB::beginTransaction(); 
-
-		// Procesando pago con sweetAlert
-			alert()->message('Message', 'Optional Title');
 
 	  	// Creamos el cliente
 			$customerData = array(
@@ -70,6 +68,9 @@ class OpenPayController extends Controller
 
 		//Mandamos el correo de confirmación de pago
 			Mail::to($user->email)->send(new PaymentSuccess($user));
+
+		//Logueamos al usuario despues de crearlo
+			auth()->guard('web')->login($user);
 
 			DB::commit(); 
 

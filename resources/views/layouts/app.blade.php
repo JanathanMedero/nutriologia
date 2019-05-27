@@ -5,6 +5,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- SweetAlert 2 --}}
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <title>@yield('title')</title>
 </head>
 <body>
@@ -64,6 +68,8 @@
             @yield('content')
         </main>
     </div>
+    @yield('extra-js')
+    @include('sweet::alert')
     <script src="{{ asset('/js/app.js') }}"></script>
 </body>
 </html>

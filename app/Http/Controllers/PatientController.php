@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PatientRequest;
+use App\Patient;
 use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PatientController extends Controller
 {
@@ -16,7 +20,9 @@ class PatientController extends Controller
     {
         $user = Auth::user();
 
-        return view('patients.index', compact('user'));
+        $patients = Patient::where('user_id', $user->id)->get();
+
+        return view('patients.index', compact('user', 'patients'));
     }
 
     /**
@@ -37,9 +43,37 @@ class PatientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PatientRequest $request)
     {
-        //
+        $user = Auth::user();
+
+        // Calculamos la edad y damos formato a la fecha de nacimiento
+        $birthdate = $request->birthdate;
+        $birthdate_format = Str::replaceArray('/', ['-', '-'], $birthdate);
+        $ages = Carbon::parse($birthdate_format)->age;
+        $birthdate_format = date('Y-m-d H:i:s');
+
+        Patient::create([
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'picture' => 'default.png',
+            'address' => $request->address,
+            'city' => $request->city,
+            'birthdate' => $birthdate_format,
+            'age' => $ages,
+            'phone_1' => $request->phone_1,
+            'phone_2' => $request->phone_2,
+            'email' => $request->email,
+            'gender' => $request->gender,
+            'trimester' => $request->trimester,
+            'semester' => $request->semester,
+            'sdg' => $request->sdg,
+            'weight' => $request->weight,
+            'size' => $request->size,
+            'notes' => $request->notes,
+        ]);
+
+        return redirect()->route('patients.index')->with('success', 'Paciente registrado correctamente');
     }
 
     /**

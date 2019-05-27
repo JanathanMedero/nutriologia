@@ -14,6 +14,11 @@ class CreatePatientsTable extends Migration
     public function up()
     {
         Schema::create('patients', function (Blueprint $table) {
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')
+                    ->references('id')->on('users')
+                    ->onDelete('cascade');
+
             $table->Increments('id');
             $table->string('name');
             $table->string('picture')->default('default.png');
@@ -21,16 +26,16 @@ class CreatePatientsTable extends Migration
             $table->string('city');
             $table->date('birthdate');
             $table->integer('age');
-            $table->integer('phone_1');
-            $table->integer('phone_2');
-            $table->integer('email');
-            $table->boolean('gender');
+            $table->string('phone_1');
+            $table->string('phone_2');
+            $table->string('email');
+            $table->string('gender');
             $table->integer('trimester')->nullable();
             $table->integer('semester')->nullable();
             $table->integer('sdg')->nullable();
-            $table->double('weight', 8,2);
-            $table->double('size', 3,1);
-            $table->text('notes');
+            $table->integer('weight');
+            $table->integer('size');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

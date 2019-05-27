@@ -12,7 +12,7 @@ Nuevo Paciente
 				<h3 class="card-title">Datos del nuevo paciente</h3>
 			</div>
 			<div class="card-body">
-				<form action="#" method="POST">
+				<form action="{{ route('patients.store') }}" method="POST">
 					@csrf
 					<div class="row">
 						<div class="form-group col-md-4">
@@ -61,11 +61,11 @@ Nuevo Paciente
 						<div class="form-group col-md-4">
 							<label>Género</label>
 							<div class="form-check">
-								<input class="form-check-input" id="masculino" type="radio" value="Masculino" name="genero" checked>
+								<input class="form-check-input" id="masculino" type="radio" value="Masculino" name="gender" checked>
 								<label class="form-check-label" for="masculino">Masculino</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" id="femenino" type="radio" value="Femenino" name="genero">
+								<input class="form-check-input" id="femenino" type="radio" value="Femenino" name="gender">
 								<label class="form-check-label" for="femenino">Femenino</label>
 							</div>
 						</div>
@@ -92,11 +92,11 @@ Nuevo Paciente
 
 						<div class="form-group col-md-12">
 							<label for="notes">Notas del paciente (opcional)</label>
-							<textarea class="form-control" id="notes" rows="3" placeholder="Ingrese las notas del paciente (opcional)"></textarea>
+							<textarea class="form-control" id="notes" rows="3" placeholder="Ingrese las notas del paciente (opcional)" name="notes"></textarea>
 						</div>
 
 						<div class="form-group col-md-12">
-							<a href="#" class="btn btn-success">Enviar</a>
+							<button type="submit" class="btn btn-success">Enviar</button>
 						</div>
 					</div>
 				</form>
