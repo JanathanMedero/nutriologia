@@ -149,7 +149,7 @@ Registro
 									</div>
 
 									<div class="col-md-6 d-flex align-items-center">
-										<a class="text-white btn btn-danger btn-block" id="pay-button" >Pagar</a>
+										<button class="text-white btn btn-danger btn-block" id="pay-button" ><span id="text-payment" class="text-white">Pagar</span></button>
 									</div>
 								</div>
 							</div>

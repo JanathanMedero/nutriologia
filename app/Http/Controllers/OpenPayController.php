@@ -11,6 +11,8 @@ use Hash;
 use Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Openpay;
 
 class OpenPayController extends Controller
@@ -59,6 +61,7 @@ class OpenPayController extends Controller
     	//Registramos el cliente en la base de datos
 			$user = User::create([
 				'name' => $request->name_nutriologist,
+				'slug' => str_slug($request->name_nutriologist. '-' .Str::uuid()),
 				'picture' => 'default.png',
 				'no_registry' => $request->no_registry,
 				'identification_card' => $request->identification_card,
@@ -78,7 +81,27 @@ class OpenPayController extends Controller
 
 		}catch(\Exception $e){ 
 				DB::rollback();
-				return $e; 
+				if($e->getMessage() == 'The card was declined'){
+					return redirect()->route('register')->with('info', 'La tarjeta ha sido rechazada, intente nuevamente o ingrese otra tarjeta.');
+				}
+				
+				if($e->getmessage() == 'The card has expired'){
+					return redirect()->route('register')->with('info', 'La tarjeta ha expirado.');
+				}
+
+				if($e->getmessage() == "The card doesn't have sufficient funds"){
+					return redirect()->route('register')->with('info', 'La tarjeta no tiene fondos suficientes.');
+				};
+
+				if($e->getmessage() == 'The card was reported as stolen'){
+					return redirect()->route('register')->with('info', 'La tarjeta ha sido identificada como una tarjeta robada.');
+				}
+
+				if($e->getmessage() == 'The card was declined (k)'){
+					return redirect()->route('register')->with('info', 'La tarjeta ha sido rechazada por el sistema antifraudes.');
+				}
+				
+				return redirect()->route('register')->with('info', $e->getMessage());
 			} 
 		}
 	}

@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ asset('css/OpenPayStyles.css') }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Scripts -->
+	<script src="{{ asset('js/app.js') }}"></script>
     
     {{-- SweetAlert 2 --}}
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
@@ -28,6 +31,8 @@
             $('#pay-button').on('click', function(event) {
                 event.preventDefault();
                 $("#pay-button").prop( "disabled", true);
+                $("#pay-button" ).append( `<span id="spinner" class="text-white"><span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span> Procesando Pago...</span>` );
+                $("#text-payment").remove();
                 OpenPay.token.extractFormAndCreate('payment-form', sucess_callbak, error_callbak);
             });
 
@@ -35,10 +40,14 @@
               var token_id = response.data.id;
               $('#token_id').val(token_id);
               $('#payment-form').submit();
+		
             };
 
              var error_callbak = function(response) {
                  var message = response.data.description != undefined ? response.data.description : response.message;
+                 if(message == 'holder_name is required'){
+                    message = 'Ingrese el nombre del titular de la tarjeta'
+                 }
                  if(message == 'card_number is required, card_number is required'){
                      message = 'Ingrese un número de tarjeta valido'
                  }
@@ -48,10 +57,15 @@
                  if(message == 'The CVV2 security code is required'){
                      message = 'El código de seguridad es requerido'
                  }
+                 if(message == 'holder_name is required, card_number is required, expiration_year expiration_month is required'){
+                    message = 'Ingrese el nombre del titular de la tarjeta, Ingrese un número de tarjeta valido, El año o mes de su tarjeta ha expirado'
+                 }
 
                  console.log(message.card_number);
                  alert(message);
-                 $("#pay-button").prop("disabled", false);
+                $("#pay-button").prop("disabled", false);
+                $("#pay-button").append(`<span id="text-payment" class="text-white">Pagar</span>`);
+                $("#spinner" ).remove();
              };
 
         });
@@ -121,6 +135,5 @@
 </div>
 @yield('extra-js')
 @include('sweet::alert')
-<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

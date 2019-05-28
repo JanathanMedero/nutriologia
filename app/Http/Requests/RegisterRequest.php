@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name_nutriologist' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'no_registry' => 'required',
             'identification_card' => 'required',
             'name_nutriologist' => 'required',
@@ -39,6 +39,7 @@ class RegisterRequest extends FormRequest
         return[
             'name_nutriologist.required' => 'Ingrese el nombre del nutriologo',
             'email.required' => 'Ingrese un correo electrónico',
+            'email.unique' => 'Se ha encontrado una cuenta con este correo electrónico, por favor inicie sesión',
             'email.email' => 'Ingrese un correo valido',
             'no_registry.required' => 'Ingrese su número de registro',
             'identification_card.required' => 'Ingrese su cédula profesional',

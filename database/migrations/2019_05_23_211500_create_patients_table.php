@@ -21,6 +21,7 @@ class CreatePatientsTable extends Migration
 
             $table->Increments('id');
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('picture')->default('default.png');
             $table->string('address');
             $table->string('city');

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-Nuevo Paciente
+Detalles del Paciente: {{ $patient->name }}
 @endsection
 
 @section('content')
@@ -9,96 +9,134 @@ Nuevo Paciente
 	<div class="col-md-12 mt-4">
 		<div class="card card-primary">
 			<div class="card-header">
-				<h3 class="card-title">Datos del nuevo paciente</h3>
+				<h3 class="card-title">Detalles del Paciente: {{ $patient->name }}</h3>
 			</div>
 			<div class="card-body">
-				<form action="{{ route('patients.store') }}" method="POST">
+				<form action="{{ route('patients.update', $patient->slug) }}" method="POST">
+					@method('PUT')
 					@csrf
 					<div class="row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre del paciente</label>
-							<input type="text" class="form-control" id="name" placeholder="Ingrese el nombre del paciente" value="{{ old('name') }}" name="name">
+							<input type="text" class="form-control" id="name" placeholder="Ingrese el nombre del paciente" value="{{ $patient->name }}" name="name">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="address">Dirección del paciente</label>
-							<input type="text" class="form-control" id="address" placeholder="Ingrese la direción del paciente" value="{{ old('address') }}" name="address">
+							<input type="text" class="form-control" id="address" placeholder="Ingrese la direción del paciente" value="{{ $patient->address }}" name="address">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="city">Ciudad del paciente</label>
-							<input type="text" class="form-control" id="city" placeholder="Ingrese la ciudad del paciente" value="{{ old('city') }}" name="city">
+							<input type="text" class="form-control" id="city" placeholder="Ingrese la ciudad del paciente" value="{{ $patient->city }}" name="city">
 						</div>
 
 						<div class="form-group col-md-4">
-							<label>Fecha de nacimiento del paciente:</label>
+							<label>Fecha de nacimiento del paciente: {{ $patient->birthdate }}</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fa fa-calendar"></i></span>
 								</div>
-								<input type="text" name="birthdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+							<input type="text" name="birthdate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask value="{{ $date }}">
 							</div>
 						</div>
 
 						<div class="form-group col-md-4">
 							<label for="phone_1">Telefono del paciente</label>
-							<input type="text" class="form-control" id="phone_1" placeholder="Ingrese el telefono del paciente" value="{{ old('phone_1') }}" name="phone_1">
+							<input type="text" class="form-control" id="phone_1" placeholder="Ingrese el telefono del paciente" value="{{ $patient->phone_1 }}" name="phone_1">
 						</div>
 
 						<div class="form-group col-md-4">
 							<label for="phone_2">Telefono secundario (opcional)</label>
-							<input type="text" class="form-control" id="phone_2" placeholder="Ingrese el telefono secundario (opcional)" value="{{ old('phone_2') }}" name="phone_2">
+							<input type="text" class="form-control" id="phone_2" placeholder="Ingrese el telefono secundario (opcional)" value="{{ $patient->phone_2 }}" name="phone_2">
 						</div>
 
 						<div class="form-group col-md-4">
 							<label for="email">Correo electrónico del paciente</label>
-							<input type="text" class="form-control" id="email" placeholder="Ingrese el correo electrónico" value="{{ old('email') }}" name="email">
+							<input type="text" class="form-control" id="email" placeholder="Ingrese el correo electrónico" value="{{ $patient->email }}" name="email">
 						</div>
 
 						<div class="form-group col-md-4">
 							<label for="weight">Peso del paciente</label>
-							<input type="text" class="form-control" id="weight" placeholder="Ingrese el peso del paciente" value="{{ old('weight') }}" name="weight">
+							<input type="text" class="form-control" id="weight" placeholder="Ingrese el peso del paciente" value="{{ $patient->weight }}" name="weight">
 						</div>
 
 						<div class="form-group col-md-4">
 							<label>Género</label>
+							@if($patient->gender == 'Masculino')
 							<div class="form-check">
 								<input class="form-check-input" id="masculino" type="radio" value="Masculino" name="gender" checked>
 								<label class="form-check-label" for="masculino">Masculino</label>
 							</div>
-
 							<div class="form-check">
 								<input class="form-check-input" id="femenino" type="radio" value="Femenino" name="gender">
 								<label class="form-check-label" for="femenino">Femenino</label>
 							</div>
-							
+							@else
+							<div class="form-check">
+								<input class="form-check-input" id="masculino" type="radio" value="Masculino" name="gender">
+								<label class="form-check-label" for="masculino">Masculino</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" id="femenino" type="radio" value="Femenino" name="gender" checked>
+								<label class="form-check-label" for="femenino">Femenino</label>
+							</div>
+							@endif
+
 						</div>
+
+						@if($patient->gender == 'Masculino')
 
 						<div class="form-group col-md-4">
 							<label for="trimester">Trimestre (Embarazo)</label>
-							<input type="text" class="form-control" id="trimester" placeholder="Ingrese el trimestre del paciente" value="{{ old('trimester') }}" name="trimester" disabled>
+							<input type="text" class="form-control" id="trimester" placeholder="Ingrese el trimestre del paciente" value="{{ $patient->trimester }}" name="trimester" disabled>
 						</div>
 
 						<div class="form-group col-md-4">
 							<label for="sdg">SDG (Embarazo)</label>
-							<input type="text" class="form-control" id="sdg" placeholder="Ingrese el SDG del paciente" value="{{ old('sdg') }}" name="sdg" disabled>
+							<input type="text" class="form-control" id="sdg" placeholder="Ingrese el SDG del paciente" value="{{ $patient->sdg }}" name="sdg" disabled>
 						</div>
 
 						<div class="form-group col-md-4">
 							<label for="semester">Semestre (Lactancia)</label>
-							<input type="text" class="form-control" id="semester" placeholder="Ingrese el semestre del paciente" value="{{ old('semester') }}" name="semester" disabled>
+							<input type="text" class="form-control" id="semester" placeholder="Ingrese el semestre del paciente" value="{{ $patient->semester }}" name="semester" disabled>
+						</div>
+
+						@else
+
+						<div class="form-group col-md-4">
+							<label for="trimester">Trimestre (Embarazo)</label>
+							<input type="text" class="form-control" id="trimester" placeholder="Ingrese el trimestre del paciente" value="{{ $patient->trimester }}" name="trimester">
 						</div>
 
 						<div class="form-group col-md-4">
+							<label for="sdg">SDG (Embarazo)</label>
+							<input type="text" class="form-control" id="sdg" placeholder="Ingrese el SDG del paciente" value="{{ $patient->sdg }}" name="sdg">
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="semester">Semestre (Lactancia)</label>
+							<input type="text" class="form-control" id="semester" placeholder="Ingrese el semestre del paciente" value="{{ $patient->semester }}" name="semester">
+						</div>
+
+						@endif
+
+
+						<div class="form-group col-md-4">
 							<label for="size">Talla del paciente</label>
-							<input type="text" class="form-control" id="size" placeholder="Ingrese la talla del paciente" value="{{ old('size') }}" name="size">
+							<input type="text" class="form-control" id="size" placeholder="Ingrese la talla del paciente" value="{{ $patient->size }}" name="size">
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="age">Edad del paciente</label>
+							<input type="text" class="form-control" id="age" value="{{ $patient->age }}" name="age" disabled>
 						</div>
 
 						<div class="form-group col-md-12">
 							<label for="notes">Notas del paciente (opcional)</label>
-							<textarea class="form-control" id="notes" rows="3" placeholder="Ingrese las notas del paciente (opcional)" name="notes"></textarea>
+						<textarea class="form-control" id="notes" rows="3" placeholder="Ingrese las notas del paciente (opcional)" name="notes">{{ $patient->notes }}</textarea>
 						</div>
 
 						<div class="form-group col-md-12">
-							<button type="submit" class="btn btn-success">Guardar Paciente</button>
+							<button type="submit" class="btn btn-info">Actualizar Paciente</button>
 						</div>
 					</div>
 				</form>
