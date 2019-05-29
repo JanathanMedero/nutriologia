@@ -66,6 +66,7 @@ class OpenPayController extends Controller
 				'no_registry' => $request->no_registry,
 				'identification_card' => $request->identification_card,
 				'email' => $request->email,
+				'confirmation_code' => Str::random(25),
 				'password' => Hash::make($request->password),
 			]);
 

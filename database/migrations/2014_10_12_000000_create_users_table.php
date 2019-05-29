@@ -19,7 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('slug')->unique();
             $table->string('picture')->default('default.png');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('confirmation_code')->nullable();
+            $table->boolean('confirmed')->default(0);
             $table->string('no_registry');
             $table->string('identification_card');
             $table->string('password');

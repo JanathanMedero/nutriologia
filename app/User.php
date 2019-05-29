@@ -7,13 +7,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
     
     protected $fillable = [
-        'name', 'slug', 'email', 'password', 'no_registry', 'identification_card',
+        'name', 'slug', 'email', 'confirmation_code', 'password', 'no_registry', 'identification_card',
     ];
 
     protected $hidden = [

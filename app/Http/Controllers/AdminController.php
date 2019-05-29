@@ -13,4 +13,8 @@ class AdminController extends Controller
 
     	return view('admin.dashboard', compact('user'));
     }
+
+    public function mail(){
+        return view('emails.PaymentSuccess');
+    }
 }
