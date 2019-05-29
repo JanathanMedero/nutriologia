@@ -30,7 +30,7 @@ Detalles del Paciente: {{ $patient->name }}
 						</div>
 
 						<div class="form-group col-md-4">
-							<label>Fecha de nacimiento del paciente: {{ $patient->birthdate }}</label>
+							<label>Fecha de nacimiento del paciente</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fa fa-calendar"></i></span>
