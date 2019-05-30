@@ -32,4 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/patient/edit/{slug}', 'PatientController@edit')->name('patients.edit');
     Route::put('/patients/edit/{slug}', 'PatientController@update')->name('patients.update');
     Route::delete('patient/delete/{slug}', 'PatientController@destroy')->name('patients.destroy');
+
+    // Crud nutriologos
+    Route::get('/nutritionists', 'nutritionistController@index')->name('nutritionists.index');
+
 });

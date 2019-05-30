@@ -30,6 +30,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Patient');
     }
 
+    public function hasRoles($role)
+    {
+        return $this->role === $role;
+    }
+
     /**
      * Send the password reset notification.
      *

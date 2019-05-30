@@ -96,16 +96,26 @@
 				<!-- Sidebar Menu -->
 				<nav class="mt-2">
 					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          	<li class="nav-item">
-          		<a href="{{ route('patients.index') }}" class="nav-link {{ request()->is('patients') ? 'active' : '' }} ">
-          			<i class="nav-icon fa fa-users" aria-hidden="true"></i>
-          			<p>
-          				Pacientes
-          			</p>
-          		</a>
-          	</li>
-          </ul>
-      </nav>
+						@if($user->hasRoles('admin'))
+						<li class="nav-item">
+			          		<a href="{{ route('nutritionists.index') }}" class="nav-link {{ request()->is('nutritionists') ? 'active' : '' }} ">
+			          			<i class="nav-icon fa fa-users" aria-hidden="true"></i>
+			          			<p>
+			          				Nutriologos
+			          			</p>
+			          		</a>
+			          	</li>
+			          	@endif
+			          	<li class="nav-item">
+			          		<a href="{{ route('patients.index') }}" class="nav-link {{ request()->is('patients') ? 'active' : '' }} ">
+			          			<i class="nav-icon fa fa-users" aria-hidden="true"></i>
+			          			<p>
+			          				Pacientes
+			          			</p>
+			          		</a>
+			          	</li>
+          			</ul>
+      			</nav>
       <!-- /.sidebar-menu -->
   </div>
   <!-- /.sidebar -->
