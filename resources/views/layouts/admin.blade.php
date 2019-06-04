@@ -52,7 +52,7 @@
 					<a href="{{ route('Dashboard') }}" class="nav-link">Inicio</a>
 				</li>
 				<li class="nav-item d-none d-sm-inline-block">
-					<a href="#" class="nav-link">Configuración</a>
+					<a href="{{ route('config') }}" class="nav-link">Configuración</a>
 				</li>
 			</ul>
 
@@ -86,7 +86,7 @@
 				<!-- Sidebar user panel (optional) -->
 				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 					<div class="image">
-						<img src="{{ asset('images/'.$user->picture) }}" class="img-circle elevation-2" alt="User Image">
+						<img src="{{ asset($user->picture) }}" class="img-circle elevation-2" alt="User Image">
 					</div>
 					<div class="info">
 						<a href="#" class="d-block">{{ $user->name }}</a>

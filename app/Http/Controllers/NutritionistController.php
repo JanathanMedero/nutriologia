@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Auth;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -19,7 +20,9 @@ class NutritionistController extends Controller
     {
         $user = Auth::user();
 
-        return view('nutritionist.index', compact('user'));
+        $nutritionists = User::where('slug' ,'!=', $user->slug)->get();
+
+        return view('nutritionist.index', compact('user', 'nutritionists'));
     }
 
     /**
@@ -72,9 +75,20 @@ class NutritionistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $nutriologist = User::where('slug', $slug)->first();
+
+        if($nutriologist->status === 0){
+            $nutriologist->status = 1;
+            $nutriologist->save();
+            return back()->with('success', 'Cuenta activada');
+        }else{
+            $nutriologist->status === 1;
+            $nutriologist->status = 0;
+            $nutriologist->save();
+            return back()->with('info', 'Cuenta suspendida');
+        }
     }
 
     /**

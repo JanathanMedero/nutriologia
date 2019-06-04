@@ -25,29 +25,97 @@ Nutriologos
                 <thead>
                 <tr>
                   <th>Nombre</th>
-                  <th>Ciudad</th>
-                  <th>Edad</th>
                   <th>Correo Electrónico</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{-- @foreach($patients as $patient)
+                @foreach($nutritionists as $nutriologist)
                 <tr class="text-center">
-                  <td>{{ $patient->name }}</td>
-                  <td>{{ $patient->city }}</td>
-                  <td>{{ $patient->age }}</td>
-                  <td>{{ $patient->email }}</td>
+                  <td>{{ $nutriologist->name }}</td>
+                  <td>{{ $nutriologist->email }}</td>
                   <td>
-                  <form action="{{ route('patients.destroy', $patient->slug) }}" method="POST">
-                      @method('DELETE')
+                  <form action="{{ route('nutritionists.update', $nutriologist->slug) }}" method="POST">
+                      @method('PUT')
                       @csrf
-                      <a href="{{ route('patients.edit', $patient->slug) }}" type="button" class="btn btn-primary">Editar</a>
-                      <button onclick="deletePatient(event)" type="submit" class="btn btn-danger text-white">Eliminar</button>
+                      <a href="#" type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="#exampleModal-{{ $nutriologist->slug }}">Mostrar</a>
+                      <!-- Modal -->
+                      <div class="modal fade" id="exampleModal-{{ $nutriologist->slug }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">{{ $nutriologist->name }}</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="row d-flex justify-content-center">
+                                    <div class="col-md-4">
+                                      <img src="{{ asset($nutriologist->picture) }}" alt="User Image" class="img-fluid">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <p><strong>Nombre: </strong> {{ $nutriologist->name }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                  <p><strong>Correo Electrónico: </strong> {{ $nutriologist->email }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                @if($nutriologist->status != true)
+                                  <p><strong>Estado de la cuenta: </strong> 
+                                    <span class="badge badge-danger">Suspendida</span>
+                                  </p>
+                                @else
+                                  <p><strong>Estado de la cuenta: </strong> <span class="badge badge-success">Activa</span></p>
+                                @endif
+                                </div>
+                                <div class="col-md-6">
+
+                                @if($nutriologist->confirmed != false)
+                                  <p><strong>Correo electrónico verificado: </strong>
+                                    <span class="badge badge-success">Verificado</span>
+                                  </p>
+                                @else
+                                  <p><strong>Correo electrónico verificado: </strong> 
+                                    <span class="badge badge-danger">Sin verificar</span>
+                                  </p>
+                                @endif
+                                </div>
+
+                                <div class="col-md-6">
+                                  <p><strong>No.Registro: </strong>{{ $nutriologist->no_registry }}</p>
+                                </div>
+
+                                <div class="col-md-6">
+                                  <p><strong>Cédula: </strong>{{ $nutriologist->identification_card }}</p>
+                                </div>
+
+                                <div class="col-md-6">
+                                  <p><strong>Fecha de registro: </strong>{{ $nutriologist->created_at->format('d-M-Y') }}</p>
+                                </div>
+
+
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      @if($nutriologist->status != true)
+                      <button onclick="activeNutriologist(event)" type="submit" class="btn btn-success text-white">Activar cuenta</button>
+                      @else
+                      <button onclick="desactiveNutriologist(event)" type="submit" class="btn btn-danger text-white">Desactivar</button>
+                      @endif
                   </form>
                   </td>
                 </tr>
-                @endforeach --}}
+                @endforeach
               </table>
             </div>
             <!-- /.card-body -->
@@ -57,8 +125,16 @@ Nutriologos
 </div>
 
 <script>
-    function deletePatient(e) {
-      if (!confirm("Eliminar Paciente?")){
+    function desactiveNutriologist(e) {
+      if (!confirm("Restringir acceso al nutriologo?")){
+        e.preventDefault();
+      }
+    }
+</script>
+
+<script>
+    function activeNutriologist(e) {
+      if (!confirm("Activar cuenta del nutriologo?")){
         e.preventDefault();
       }
     }

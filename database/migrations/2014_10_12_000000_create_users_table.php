@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('slug')->unique();
             $table->string('picture')->default('default.png');
             $table->string('role')->default('user');
+            $table->boolean('status')->default(1);
             $table->string('email')->unique();
             $table->string('confirmation_code')->nullable();
             $table->boolean('confirmed')->default(0);

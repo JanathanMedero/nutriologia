@@ -19,11 +19,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/charge', 'OpenPayController@store')->name('openPay.store');
-Route::get('/mail', 'AdminController@mail')->name('home.email');
 Route::get('/register/verify/{confirmation_code}', 'EmailController@verify')->name('email.verify');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', 'AdminController@dashboard')->name('Dashboard');
+    Route::get('/dashboard', 'UserController@dashboard')->name('Dashboard');
+    Route::get('/configuration', 'UserController@config')->name('config');
+
+    //Cambiar imñagen de perfil
+    Route::put('user/change/picture/{slug}', 'UserController@change_picture')->name('change_picture');
 
     // Crud Pacientes
     Route::get('/patients', 'PatientController@index')->name('patients.index');
@@ -34,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('patient/delete/{slug}', 'PatientController@destroy')->name('patients.destroy');
 
     // Crud nutriologos
-    Route::get('/nutritionists', 'nutritionistController@index')->name('nutritionists.index');
+    Route::get('/nutritionists', 'NutritionistController@index')->name('nutritionists.index');
+    Route::put('/nutritionists/update/status/{slug}', 'NutritionistController@update')->name('nutritionists.update');
 
 });
