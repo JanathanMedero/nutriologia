@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use Auth;
 use App\Http\Requests\PictureRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Support\Facades\Storage;
 use App\User;
 use File;
+use Hash;
 
 use Illuminate\Http\Request;
 
@@ -51,6 +53,20 @@ class UserController extends Controller
                 }   
             }
         }
+    }
 
+    public function change_password(UpdatePasswordRequest $request, $slug)
+    {
+        $user = User::where('slug', $slug)->first();
+
+        if(Hash::check($request->current_password, $user->password))
+        {
+            $user->password = bcrypt($request->password);
+            $user->save();
+            return back()->with('success', 'Contraseña actualizada correctamente');
+        }else
+        {
+            return back()->with('info', 'Tu contraseña actual no coincide');
+        }
     }
 }

@@ -52,12 +52,18 @@
 					<a href="{{ route('Dashboard') }}" class="nav-link">Inicio</a>
 				</li>
 				<li class="nav-item d-none d-sm-inline-block">
-					<a href="{{ route('config') }}" class="nav-link">Configuración</a>
+					<a href="{{ route('config') }}" class="nav-link">Configurar Perfil</a>
 				</li>
 			</ul>
 
 			<!-- Logout -->
 			<ul class="navbar-nav ml-auto">
+				@if(request()->is('configuration'))
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#updatePassword">
+					  Cambiar Contraseña
+					</button>
+				@endif
 				<li class="nav-item">
 					<a class="nav-link" href="{{ route('logout') }}" 
 					onclick="event.preventDefault();
@@ -89,7 +95,7 @@
 						<img src="{{ asset($user->picture) }}" class="img-circle elevation-2" alt="User Image">
 					</div>
 					<div class="info">
-						<a href="#" class="d-block">{{ $user->name }}</a>
+						<a href="{{ route('config') }}" class="d-block">{{ $user->name }}</a>
 					</div>
 				</div>
 

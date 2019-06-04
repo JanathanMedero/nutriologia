@@ -25,6 +25,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'UserController@dashboard')->name('Dashboard');
     Route::get('/configuration', 'UserController@config')->name('config');
 
+    //Change password
+    Route::put('/change/password/{slug}', 'UserController@change_password')->name('change_password');
+
     //Cambiar imñagen de perfil
     Route::put('user/change/picture/{slug}', 'UserController@change_picture')->name('change_picture');
 
