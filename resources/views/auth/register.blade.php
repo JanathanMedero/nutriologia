@@ -5,9 +5,21 @@ Registro
 @endsection
 
 @section('content')
+<div class="container-fluid" id="loadPayment">
+	<div class="row" id="load">
+		<div class="spinner-border text-light" role="status">
+  			<span class="sr-only">Loading...</span>
+		</div>
+		<div class="col-md-4">
+			<p class="text-white mb-0">
+				Procesando Pago, no cierre ni recargue esta página.
+			</p>
+		</div>
+	</div>
+</div>
+
 <div class="container">
 	<div class="row">
-
 		{{-- Inicia formulario de usuario --}}
 		<form action="{{ route('openPay.store') }}" method="POST" id="payment-form">
 			@csrf
@@ -28,6 +40,10 @@ Registro
 							<div class="form-group col-md-6">
 								<label for="email">Correo Electrónico</label>
 								<input id="email" class="form-control" type="email" placeholder="Correo Electrónico" name="email" value="{{ old('email') }}">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="email_confirmation">Repetir Correo Electrónico</label>
+								<input id="email_confirmation" class="form-control" type="email" placeholder="Ingrese nuevamente su correo electrónico" name="email_confirmation" value="{{ old('email_confirmation') }}">
 							</div>
 							<div class="form-group col-md-6">
 								<label for="no_registry">Número de registro</label>

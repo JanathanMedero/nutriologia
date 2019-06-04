@@ -31,6 +31,7 @@
             $('#pay-button').on('click', function(event) {
                 event.preventDefault();
                 $("#pay-button").prop( "disabled", true);
+                $('#loadPayment').css('display', 'block');
                 $("#pay-button" ).append( `<span id="spinner" class="text-white"><span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span> Procesando Pago...</span>` );
                 $("#text-payment").remove();
                 OpenPay.token.extractFormAndCreate('payment-form', sucess_callbak, error_callbak);
@@ -64,6 +65,7 @@
                  console.log(message.card_number);
                  alert(message);
                 $("#pay-button").prop("disabled", false);
+                $('#loadPayment').css('display', 'none');
                 $("#pay-button").append(`<span id="text-payment" class="text-white">Pagar</span>`);
                 $("#spinner" ).remove();
              };
@@ -129,7 +131,7 @@
         </div>
     </nav>
 
-    <main class="py-4">
+    <main>
         @yield('content')
     </main>
 </div>
