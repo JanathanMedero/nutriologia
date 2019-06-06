@@ -87,7 +87,13 @@ class PatientController extends Controller
      */
     public function show($slug)
     {
-        //
+        $user = Auth::user();
+
+        $patient = Patient::where('slug', $slug)->first();
+
+        $date = Carbon::parse($patient->birthdate)->format('d-m-Y');
+
+        return view('patients.show', compact('patient', 'user', 'date'));
     }
 
     /**

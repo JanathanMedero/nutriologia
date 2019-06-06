@@ -35,9 +35,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/patients', 'PatientController@index')->name('patients.index');
     Route::get('/patients/new-patient', 'PatientController@create')->name('patients.create');
     Route::post('/patients/new-patient', 'PatientController@store')->name('patients.store');
+    Route::get('/patients/show/patient/{slug}', 'PatientController@show')->name('patients.show');
     Route::get('/patient/edit/{slug}', 'PatientController@edit')->name('patients.edit');
     Route::put('/patients/edit/{slug}', 'PatientController@update')->name('patients.update');
     Route::delete('patient/delete/{slug}', 'PatientController@destroy')->name('patients.destroy');
+
+    //Crud de citas
+    Route::get('/patients/quote/create/{slug}', 'QuoteController@create')->name('quotes.create');
 
     // Crud nutriologos
     Route::get('/nutritionists', 'NutritionistController@index')->name('nutritionists.index');

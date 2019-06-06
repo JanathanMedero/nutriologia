@@ -42,6 +42,12 @@ Pacientes
                   <form action="{{ route('patients.destroy', $patient->slug) }}" method="POST">
                       @method('DELETE')
                       @csrf
+                      <a href="{{ route('quotes.create', $patient->slug) }}" type="button" class="btn btn-success text-white">
+                        Agendar Cita
+                      </a>
+                      <a href="{{ route('patients.show', $patient->slug) }}" type="button" class="btn btn-warning text-white">
+                        Ver Paciente
+                      </a>
                       <a href="{{ route('patients.edit', $patient->slug) }}" type="button" class="btn btn-primary">Editar</a>
                       <button onclick="deletePatient(event)" type="submit" class="btn btn-danger text-white">Eliminar</button>
                   </form>
