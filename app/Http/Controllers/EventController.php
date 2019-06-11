@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Patient;
-use App\User;
 use Auth;
+use App\Patient;
+use Calendar;
+use App\Event;
+use App\Http\Requests\EventRequest;
+use Carbon\Carbon;
 
-class QuoteController extends Controller
+class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +19,13 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        $patients = Patient::where('user_id', $user->id)->get();
+
+        $events = Event::where('user_id', $user->id)->get();
+
+        return view('appoinments.index', compact('user', 'events', 'patients'));
     }
 
     /**
@@ -28,9 +37,11 @@ class QuoteController extends Controller
     {
         $user = Auth::user();
 
+        $events = Event::where('user_id', $user->id)->get();
+
         $patient = Patient::where('slug', $slug)->first();
 
-        return view('quotes.create', compact('patient', 'user'));
+        return view('quotes.create', compact('patient', 'user', 'events'));
     }
 
     /**
@@ -39,9 +50,19 @@ class QuoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        //
+        $user = Auth::user();
+
+        Event::create([
+            'user_id' => $user->id,
+            'patient_id' => $request->patient,
+            'title' => $request->title,
+            'start_date' => $request->start_date,
+            'end_date' => $request->start_date
+        ]);
+
+        return back()->with('success', 'Cita registrada correctamente');
     }
 
     /**

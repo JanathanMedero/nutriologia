@@ -30,6 +30,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Patient');
     }
 
+    public function events()
+    {
+        return $this->hasmany('App\Event');
+    }
+
     public function hasRoles($role)
     {
         return $this->role === $role;

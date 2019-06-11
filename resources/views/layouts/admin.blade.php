@@ -35,6 +35,7 @@
 	<link rel="stylesheet" href="{{ asset('admin-lte/datatables/dataTables.bootstrap4.css') }}">
 	{{-- SweetAlert 2 --}}
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    @yield('extra-css')
 	<title>@yield('title')</title>
 
 </head>
@@ -117,6 +118,14 @@
 			          			<i class="nav-icon fa fa-users" aria-hidden="true"></i>
 			          			<p>
 			          				Pacientes
+			          			</p>
+			          		</a>
+			          	</li>
+			          	<li class="nav-item">
+			          		<a href="{{ route('event.index') }}" class="nav-link {{ request()->is('appointments') ? 'active' : '' }} ">
+			          			<i class="nav-icon fa fa-users" aria-hidden="true"></i>
+			          			<p>
+			          				Citas
 			          			</p>
 			          		</a>
 			          	</li>

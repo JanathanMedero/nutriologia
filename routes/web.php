@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Change password
     Route::put('/change/password/{slug}', 'UserController@change_password')->name('change_password');
 
-    //Cambiar imñagen de perfil
+    //Cambiar imágen de perfil
     Route::put('user/change/picture/{slug}', 'UserController@change_picture')->name('change_picture');
 
     // Crud Pacientes
@@ -40,8 +40,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/patients/edit/{slug}', 'PatientController@update')->name('patients.update');
     Route::delete('patient/delete/{slug}', 'PatientController@destroy')->name('patients.destroy');
 
-    //Crud de citas
-    Route::get('/patients/quote/create/{slug}', 'QuoteController@create')->name('quotes.create');
+    //Crud de citas (Eventos)
+    Route::get('/patients/event/create/{slug}', 'EventController@create')->name('event.create');
+    Route::post('/patients/event/created', 'EventController@store')->name('event.store');
+    Route::get('/appointments', 'EventController@index')->name('event.index');
+
+    //Peticion de inicio de sesión en gmail (Google Calendar)
+    Route::post('/google-calendar/connect/{slug}', 'CalendarController@store')->name('oauth.calendar');
+    Route::get('/oauth', 'CalendarController@oauth')->name('oauthCallback');
 
     // Crud nutriologos
     Route::get('/nutritionists', 'NutritionistController@index')->name('nutritionists.index');

@@ -15,9 +15,9 @@ public function user()
     {
         return $this->belongsTo('App\User');
     }
-public function quotes()
+public function events()
     {
-        return $this->hasMany('App\Quote');
+        return $this->hasMany('App\Event');
     }
 
 }
