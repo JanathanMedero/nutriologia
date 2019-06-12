@@ -65,7 +65,7 @@ Pacientes
         e.preventDefault();
       }
     }
-    </script>
+</script>
 
 <script>
   $(function () {

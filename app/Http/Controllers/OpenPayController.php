@@ -61,7 +61,7 @@ class OpenPayController extends Controller
     	//Registramos el cliente en la base de datos
 			$user = User::create([
 				'name' => $request->name_nutriologist,
-				'slug' => str_slug($request->name_nutriologist. '-' .Str::uuid()),
+				'slug' => str_slug(Str::random(40)),
 				'picture' => 'default.png',
 				'no_registry' => $request->no_registry,
 				'identification_card' => $request->identification_card,

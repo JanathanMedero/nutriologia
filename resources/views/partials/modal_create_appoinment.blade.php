@@ -37,6 +37,10 @@
                 <input type="date" name="start_date" class="form-control">
               </div>
             </div>
+            <div class="form-group col-md-12">
+              <label for="description">Descripción de la cita (Opcional)</label>
+              <textarea class="form-control" name="description" id="description" rows="3" placeholder="Ingrese las notas de la cita o una breve descripción."></textarea>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

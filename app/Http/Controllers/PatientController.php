@@ -47,6 +47,7 @@ class PatientController extends Controller
      */
     public function store(PatientRequest $request)
     {
+
         $user = Auth::user();
 
         // Calculamos la edad y damos formato a la fecha de nacimiento

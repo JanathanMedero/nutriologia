@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/patients/event/create/{slug}', 'EventController@create')->name('event.create');
     Route::post('/patients/event/created', 'EventController@store')->name('event.store');
     Route::get('/appointments', 'EventController@index')->name('event.index');
+    Route::get('/appointments/event/{slug}', 'EventController@show')->name('event.show');
+    Route::delete('/appointment/delete/{slug}', 'EventController@destroy')->name('event.delete');
 
     //Peticion de inicio de sesión en gmail (Google Calendar)
     Route::post('/google-calendar/connect/{slug}', 'CalendarController@store')->name('oauth.calendar');

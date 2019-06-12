@@ -9,13 +9,18 @@
 	$(document).ready(function() {
         // page is now ready, initialize the calendar...
         $('#calendar').fullCalendar({
+                monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
             // put your options and callbacks here
             events : [
             @foreach($events as $event)
             {
             	title : '{{ $event->title }}',
             	start : '{{ $event->start_date }}',
-                color : '#008080'
+                color : '#008080',
+                url: '{{ route('event.show', $event->slug) }}'
             },
             @endforeach
             ]

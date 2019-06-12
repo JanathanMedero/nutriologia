@@ -28,6 +28,8 @@ class CreateEventsTable extends Migration
 
             $table->Increments('id');
             $table->string('title');
+            $table->string('slug');
+            $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();

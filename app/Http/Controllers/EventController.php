@@ -7,6 +7,7 @@ use Auth;
 use App\Patient;
 use Calendar;
 use App\Event;
+use Illuminate\Support\Str;
 use App\Http\Requests\EventRequest;
 use Carbon\Carbon;
 
@@ -58,6 +59,8 @@ class EventController extends Controller
             'user_id' => $user->id,
             'patient_id' => $request->patient,
             'title' => $request->title,
+            'slug' => str_slug(Str::random(40)),
+            'description' => $request->description,
             'start_date' => $request->start_date,
             'end_date' => $request->start_date
         ]);
@@ -71,9 +74,13 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $user = Auth::user();
+
+        $event = Event::where('slug', $slug)->first();
+
+        return view('appoinments.show', compact('user','event'));
     }
 
     /**
@@ -105,8 +112,10 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $event = Event::where('slug', $slug)->delete();
+
+        return redirect()->route('event.index')->with('success', 'Cita eliminada correctamente');
     }
 }
