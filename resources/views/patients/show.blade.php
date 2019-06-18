@@ -42,70 +42,73 @@ Paciente {{ $patient->name }}
 					</div>
 
 					@if($patient->phone_2 == null)
-					<div class="form-group col-md-4">
-						<label>Telefono secundario (opcional)</label>
-						<input type="text" class="form-control" id="phone_2" placeholder="Teléfono secundario no registrado" disabled>
-					</div>
-					@else
-					<div class="form-group col-md-4">
-						<label for="phone_2">Telefono secundario (opcional)</label>
-						<input type="text" class="form-control" id="phone_2" placeholder="Ingrese el telefono secundario (opcional)" value="{{ $patient->phone_2 }}" name="phone_2">
-					</div>
-					@endif
+						<div class="form-group col-md-4">
+							<label>Telefono secundario (opcional)</label>
+							<input type="text" class="form-control" id="phone_2" placeholder="Teléfono secundario no registrado" disabled>
+						</div>
+						@else
+						<div class="form-group col-md-4">
+							<label for="phone_2">Telefono secundario (opcional)</label>
+							<input type="text" class="form-control" id="phone_2" placeholder="Ingrese el telefono secundario (opcional)" value="{{ $patient->phone_2 }}" name="phone_2">
+						</div>
+						@endif
 
-					<div class="form-group col-md-4">
-						<label>Correo electrónico del paciente</label>
-						<input type="text" class="form-control" value="{{ $patient->email }}" disabled>
-					</div>
+						<div class="form-group col-md-4">
+							<label>Correo electrónico del paciente</label>
+							<input type="text" class="form-control" value="{{ $patient->email }}" disabled>
+						</div>
 
-					<div class="form-group col-md-4">
-						<label>Peso del paciente</label>
-						<input type="text" class="form-control" value="{{ $patient->weight }}" disabled>
-					</div>
+						<div class="form-group col-md-4">
+							<label>Peso del paciente</label>
+							<input type="text" class="form-control" value="{{ $patient->weight }}" disabled>
+						</div>
 
-					<div class="form-group col-md-4">
-						<label>Género</label>
-						<input type="text" class="form-control" value="{{ $patient->gender }}" disabled>
-					</div>
+						<div class="form-group col-md-4">
+							<label>Género</label>
+							<input type="text" class="form-control" value="{{ $patient->gender }}" disabled>
+						</div>
 
-					@if($patient->gender == 'Femenino')
+						@if($patient->gender == 'Femenino')
 
-					<div class="form-group col-md-4">
-						<label>Trimestre (Embarazo)</label>
-						<input type="text" class="form-control" value="{{ $patient->trimester }}" disabled>
-					</div>
+							<div class="form-group col-md-4">
+								<label>Trimestre (Embarazo)</label>
+								<input type="text" class="form-control" value="{{ $patient->trimester }}" disabled>
+							</div>
 
-					<div class="form-group col-md-4">
-						<label>SDG (Embarazo)</label>
-						<input type="text" class="form-control" value="{{ $patient->sdg }}" disabled>
-					</div>
+							<div class="form-group col-md-4">
+								<label>SDG (Embarazo)</label>
+								<input type="text" class="form-control" value="{{ $patient->sdg }}" disabled>
+							</div>
 
-					<div class="form-group col-md-4">
-						<label>Semestre (Lactancia)</label>
-						<input type="text" class="form-control" value="{{ $patient->semester }}" disabled>
-					</div>
+							<div class="form-group col-md-4">
+								<label>Semestre (Lactancia)</label>
+								<input type="text" class="form-control" value="{{ $patient->semester }}" disabled>
+							</div>
 
-					@endif
+							@endif
 
 
-					<div class="form-group col-md-4">
-						<label>Talla del paciente</label>
-						<input type="text" class="form-control" value="{{ $patient->size }}" disabled>
-					</div>
+							<div class="form-group col-md-4">
+								<label>Talla del paciente</label>
+								<input type="text" class="form-control" value="{{ $patient->size }}" disabled>
+							</div>
 
-					<div class="form-group col-md-4">
-						<label >Edad del paciente</label>
-						<input type="text" class="form-control" value="{{ $patient->age }}" disabled>
-					</div>
+							<div class="form-group col-md-4">
+								<label>Edad del paciente</label>
+								<input type="text" class="form-control" value="{{ $patient->age }}" disabled>
+							</div>
 
-					<div class="form-group col-md-12">
-						<label>Notas del paciente (opcional)</label>
-						<textarea class="form-control" rows="3" disabled>{{ $patient->notes }}</textarea>
-					</div>
+							<div class="form-group col-md-12">
+								<label>Notas del paciente (opcional)</label>
+								<textarea class="form-control" rows="3" disabled>{{ $patient->notes }}</textarea>
+							</div>
 
-					<div class="form-group col-md-12">
-						<a href="{{ route('patients.edit', $patient->slug) }}" class="btn btn-info text-white" type="button" class="btn btn-info">Editar Paciente</a>
-					</div>
+							<div class="form-group col-md-12">
+								<div class="row">
+									<a href="{{ route('patients.edit', $patient->slug) }}" class="btn btn-info text-white mr-1" type="button" class="btn btn-info">Editar Paciente</a>
+									<a href="{{ route('BriefClinicHistory.create', $patient->slug) }}" class="btn btn-info text-white ml-1" type="button" class="btn btn-info">Evaluación Médica</a>
+								</div>
+							</div>
 				</div>
 			</div>
 			<!-- /.card-body -->

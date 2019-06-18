@@ -6,9 +6,9 @@ Bienvenido {{ $user->name }}
 
 @section('content')
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-7">
+    <div class="row">
+        <div class="col-lg-7">
+        </div>
     </div>
-  </div>
 </div>
 @endsection

@@ -11,13 +11,27 @@ class Patient extends Model
 	'semester', 'sdg', 'weight', 'size', 'notes'
 ];
 
-public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
-public function events()
-    {
-        return $this->hasMany('App\Event');
-    }
+	public function user()
+	    {
+	        return $this->belongsTo('App\User');
+	    }
+	public function events()
+	    {
+	        return $this->hasMany('App\Event');
+	    }
+
+	public function Brief_clinical_history()
+	    {
+	        return $this->hasOne('App\Brief_clinical_history');
+	    }
+	public function heredfamily_background()
+		{
+			return $this->hasOne('App\heredfamily_background');
+		}
+	public function Toxic_habit()
+		{
+		return $this->hasOne('App\Toxic_habit', 'patient_id');
+		}
+
 
 }

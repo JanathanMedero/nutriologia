@@ -42,6 +42,9 @@ Pacientes
                   <form action="{{ route('patients.destroy', $patient->slug) }}" method="POST">
                       @method('DELETE')
                       @csrf
+					  <a href="{{ route('ClinicHistoryPatient', $patient->slug) }}" type="button" class="btn btn-success text-white">
+                        Iniciar Consulta
+                      </a>
                       <a href="{{ route('patients.show', $patient->slug) }}" type="button" class="btn btn-warning text-white">
                         Ver Paciente
                       </a>
