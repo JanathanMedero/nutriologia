@@ -14,8 +14,8 @@ Historia Clínica: {{ $patient->name }}
                 </div>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="card col-md-4">
+                <div class="row d-flex justify-content-around">
+                    <div class="card col-md-3">
                         <img src="{{ asset('images/clinic_history.png') }}" class="card-img-top" alt="Historia Clínica">
                         <div class="card-body">
                             <h5 class="card-title">Historia Clínica</h5>
@@ -25,6 +25,14 @@ Historia Clínica: {{ $patient->name }}
                             @else
                             <a href="{{ route('BriefClinicHistory.create', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Capturar Datos</a>
                         @endif
+                        </div>
+                    </div>
+                    <div class="card col-md-3">
+                        <img src="{{ asset('images/chemistry.jpg') }}" class="card-img-top" alt="Analisis Bioquímicos">
+                        <div class="card-body">
+                            <h5 class="card-title">Analisis Bioquímicos</h5>
+                            <p class="card-text">Formulario con detalles del paciente como su glucosa, examen general de orina.</p>
+                            <a href="{{ route('ChemicalAnalysis.create', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Capturar Datos</a>
                         </div>
                     </div>
                 </div>

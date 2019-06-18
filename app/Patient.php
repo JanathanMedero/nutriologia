@@ -32,6 +32,28 @@ class Patient extends Model
 		{
 		return $this->hasOne('App\Toxic_habit', 'patient_id');
 		}
-
-
+		public function BloodChemistry()
+		{
+			return $this->hasOne('App\BloodChemistry');
+		}
+		public function HematicBiometry()
+		{
+			return $this->hasOne('App\HematicBiometry');
+		}
+		public function VitaminMineral()
+		{
+			return $this->hasOne('App\VitaminMineral');
+		}
+		public function LipidProfile()
+		{
+			return $this->hasOne('App\LipidProfile');
+		}
+		public function Urine()
+		{
+			return $this->hasOne('App\Urine');
+		}
+		public function UrineTest()
+		{
+			return $this->hasOne('App\UrineTest');
+		}
 }

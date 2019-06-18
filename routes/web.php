@@ -54,6 +54,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/patient/{slug}/edit/BriefClinicalHistory', 'ClinicHistoryController@BriefClinicHistoryEdit')->name('BriefClinicalHistory.edit');
     Route::put('/patient/{slug}/BriefClinicHistory/Updated', 'ClinicHistoryController@BriefClinicHistoryUpdate')->name('BriefClinicHistory.update');
 
+    //Analisis Quimicos
+    Route::get('/patient/{slug}/create/ChemicalAnalysis', 'ChemicalAnalysisController@create')->name('ChemicalAnalysis.create');
+
     //Peticion de inicio de sesión en gmail (Google Calendar)
     Route::post('/google-calendar/connect/{slug}', 'CalendarController@store')->name('oauth.calendar');
     Route::get('/oauth', 'CalendarController@oauth')->name('oauthCallback');
