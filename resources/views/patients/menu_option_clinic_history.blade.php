@@ -35,6 +35,14 @@ Historia Clínica: {{ $patient->name }}
                             <a href="{{ route('ChemicalAnalysis.create', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Capturar Datos</a>
                         </div>
                     </div>
+                    <div class="card col-md-3">
+                        <img src="{{ asset('images/vital_signs.png') }}" class="card-img-top" alt="Signos Vitales">
+                        <div class="card-body">
+                            <h5 class="card-title">Signos Vitales</h5>
+                            <p class="card-text">Formulario con detalles la presión arterial, temperatura corporal etc.</p>
+                            <a href="{{ route('VitalSigns.create', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Capturar Datos</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

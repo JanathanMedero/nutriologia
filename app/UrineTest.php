@@ -8,7 +8,7 @@ class UrineTest extends Model
 {
     protected $table = 'urine_tests';
 
-    protected $guard = [];
+    protected $fillable = ['patient_id', 'pH', 'protein', 'specific_gravity', 'glucose', 'whites_cells', 'erythrocytes'];
 
     public function Patient()
     {

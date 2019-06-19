@@ -57,6 +57,25 @@ Route::group(['middleware' => 'auth'], function () {
     //Analisis Quimicos
     Route::get('/patient/{slug}/create/ChemicalAnalysis', 'ChemicalAnalysisController@create')->name('ChemicalAnalysis.create');
 
+    //Stores y Updates Analisis Bioquímicos
+    Route::post('/patient/{slug}/ChemicalAnalysis/created', 'ChemicalAnalysisController@bloodChemistryStore')->name('bloodChemistry.store');
+    Route::put('/patient/{slug}/ChemicalAnalysis/updated', 'ChemicalAnalysisController@bloodChemistryUpdate')->name('bloodChemistry.update');
+    Route::post('/patient/{slug}/HematicBiometry/created', 'ChemicalAnalysisController@hematicBiometryStore')->name('hematicBiometry.store');
+    Route::put('/patient/{slug}/HematicBiometry/updated', 'ChemicalAnalysisController@hematicBiometryUpdate')->name('hematicBiometry.update');
+    Route::post('/patient/{slug}/VitaminMineral/created', 'ChemicalAnalysisController@vitaminMineralStore')->name('vitaminMineral.store');
+    Route::put('/patient/{slug}/VitaminMineral/updated', 'ChemicalAnalysisController@vitaminMineralUpdate')->name('vitaminMineral.update');
+    Route::post('/patient/{slug}/LipidProfile/created', 'ChemicalAnalysisController@lipidProfileStore')->name('lipidProfile.store');
+    Route::put('/patient/{slug}/LipidProfile/updated', 'ChemicalAnalysisController@lipidProfileUpdate')->name('lipidProfile.update');
+    Route::post('/patient/{slug}/ThyroidProfile/created', 'ChemicalAnalysisController@thyroidProfileStore')->name('thyroidProfile.store');
+    Route::put('/patient/{slug}/ThyroidProfile/updated', 'ChemicalAnalysisController@thyroidProfileUpdate')->name('thyroidProfile.update');
+    Route::post('/patient/{slug}/Urine/created', 'ChemicalAnalysisController@urineStore')->name('urine.store');
+    Route::put('/patient/{slug}/Urine/updated', 'ChemicalAnalysisController@urineUpdate')->name('urine.update');
+    Route::post('/patient/{slug}/UrineTest/created', 'ChemicalAnalysisController@urineTestStore')->name('urineTest.store');
+    Route::put('/patient/{slug}/UrineTest/updated', 'ChemicalAnalysisController@urineTestUpdate')->name('urineTest.update');
+
+    //Signos Vitales
+    Route::get('/patient/{slug}/create/VitalSigns', 'VitalSignsController@create')->name('VitalSigns.create');
+
     //Peticion de inicio de sesión en gmail (Google Calendar)
     Route::post('/google-calendar/connect/{slug}', 'CalendarController@store')->name('oauth.calendar');
     Route::get('/oauth', 'CalendarController@oauth')->name('oauthCallback');

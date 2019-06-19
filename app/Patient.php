@@ -48,6 +48,12 @@ class Patient extends Model
 		{
 			return $this->hasOne('App\LipidProfile');
 		}
+
+		public function ThyroidProfile()
+		{
+			return $this->hasOne('App\ThyroidProfile');
+		}
+
 		public function Urine()
 		{
 			return $this->hasOne('App\Urine');
@@ -55,5 +61,9 @@ class Patient extends Model
 		public function UrineTest()
 		{
 			return $this->hasOne('App\UrineTest');
+		}
+		public function VitalSign()
+		{
+			return $this->hasOne('App\VitalSign');
 		}
 }

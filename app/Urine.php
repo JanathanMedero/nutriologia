@@ -8,7 +8,7 @@ class Urine extends Model
 {
     protected $table = 'urines';
 
-    protected $guard = [];
+    protected $fillable = ['patient_id', 'urine_24H', 'amylase', 'creatinine', 'urea', 'Ca', 'Na', 'K'];
 
     public function Patient()
     {

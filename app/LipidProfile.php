@@ -8,7 +8,7 @@ class LipidProfile extends Model
 {
     protected $table = 'lipid_profiles';
 
-    protected $guard = [];
+    protected $fillable = ['patient_id', 'total_cholesterol', 'HDL_cholesterol', 'LDL_cholesterol', 'triglycerides'];
 
     public function Patient()
     {

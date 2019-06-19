@@ -8,7 +8,7 @@ class ThyroidProfile extends Model
 {
     protected $table = 'thyroid_profiles';
 
-    protected $guard = [];
+    protected $fillable = ['patient_id', 'T4', 'T4_free', 'T3_total', 'TSH'];
 
     public function Patient()
     {
