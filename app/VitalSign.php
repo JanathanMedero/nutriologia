@@ -8,7 +8,7 @@ class VitalSign extends Model
 {
     protected $table = 'vital_signs';
 
-    protected $guard = [];
+    protected $fillable = ['patient_id', 'PAS', 'breathing_frequency', 'body_temperature', 'beats_per_minute'];
 
     public function patient()
     {

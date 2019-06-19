@@ -40,7 +40,11 @@ Historia Clínica: {{ $patient->name }}
                         <div class="card-body">
                             <h5 class="card-title">Signos Vitales</h5>
                             <p class="card-text">Formulario con detalles la presión arterial, temperatura corporal etc.</p>
+                            @if($patient->VitalSign)
+                            <a href="{{ route('VitalSigns.edit', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Editar Datos</a>
+                            @else
                             <a href="{{ route('VitalSigns.create', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Capturar Datos</a>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -75,6 +75,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Signos Vitales
     Route::get('/patient/{slug}/create/VitalSigns', 'VitalSignsController@create')->name('VitalSigns.create');
+    Route::post('/patient/{slug}/VitalSigns/created', 'VitalSignsController@store')->name('VitalSigns.store');
+    Route::get('/patient/{slug}/VitalSigns/edit', 'VitalSignsController@edit')->name('VitalSigns.edit');
+    Route::put('/patient/{slug}/VitalSigns/updated', 'VitalSignsController@update')->name('VitalSigns.update');
 
     //Peticion de inicio de sesión en gmail (Google Calendar)
     Route::post('/google-calendar/connect/{slug}', 'CalendarController@store')->name('oauth.calendar');
