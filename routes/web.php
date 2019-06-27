@@ -73,6 +73,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/patient/{slug}/UrineTest/created', 'ChemicalAnalysisController@urineTestStore')->name('urineTest.store');
     Route::put('/patient/{slug}/UrineTest/updated', 'ChemicalAnalysisController@urineTestUpdate')->name('urineTest.update');
 
+    //Historia Clínica Nutricional
+    Route::get('/patient/{slug}/NutritionalClinicalHistory/create', 'NutritionalClinicalHistoryController@create')->name('NutritionalClinicalHistory.create');
+
     //Signos Vitales
     Route::get('/patient/{slug}/create/VitalSigns', 'VitalSignsController@create')->name('VitalSigns.create');
     Route::post('/patient/{slug}/VitalSigns/created', 'VitalSignsController@store')->name('VitalSigns.store');
