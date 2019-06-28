@@ -1765,6 +1765,12 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
 //
 //
 //
@@ -1907,14 +1913,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_0___default.a
   },
-  props: ['foods'],
+  props: ['foods', 'patient'],
   data: function data() {
     return {
       foodNews: this.foods,
+      patient: this.patient.id,
       one_day: [],
       twoOrTreeForDay: [],
       oneForWeek: [],
@@ -1924,6 +1932,14 @@ __webpack_require__.r(__webpack_exports__);
       oneMonth: [],
       never: []
     };
+  },
+  methods: {
+    addTest: function addTest() {
+      // for (var i = this.one_day.length - 1; i >= 0; i++) {
+      //     axios.post('')
+      // }
+      console.log(this.one_day); //console.log(this.patient.id);
+    }
   }
 });
 
@@ -39697,86 +39713,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "card card-info" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "row" }, [
-            _c(
-              "div",
-              { staticClass: "col-md-12" },
-              [
-                _c(
-                  "draggable",
-                  {
-                    staticClass: "list-group",
-                    attrs: {
-                      list: _vm.foodNews,
-                      group: "foods",
-                      element: "div"
-                    }
-                  },
-                  _vm._l(_vm.foodNews, function(food, index) {
-                    return _c(
-                      "li",
-                      {
-                        key: food.id,
-                        staticClass: "list-group-item list-group-item-action",
-                        attrs: { "data-id": food.id }
-                      },
-                      [
-                        _c("img", {
-                          staticStyle: { width: "30px" },
-                          attrs: {
-                            src: "/images/foods/" + food.image,
-                            alt: "'food.name'"
-                          }
-                        }),
-                        _vm._v(
-                          " " +
-                            _vm._s(food.name) +
-                            "\n                                "
-                        )
-                      ]
-                    )
-                  }),
-                  0
-                )
-              ],
-              1
-            )
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "card card-info" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(2),
-                _vm._v(" "),
+  return _c(
+    "form",
+    {
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.addTest()
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "card card-info" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
                 _c(
                   "div",
-                  { staticClass: "card-body" },
+                  { staticClass: "col-md-12" },
                   [
                     _c(
                       "draggable",
                       {
                         staticClass: "list-group",
                         attrs: {
-                          list: _vm.one_day,
+                          list: _vm.foodNews,
                           group: "foods",
                           element: "div"
                         }
                       },
-                      _vm._l(_vm.one_day, function(food, index) {
+                      _vm._l(_vm.foodNews, function(food, index) {
                         return _c(
                           "li",
                           {
@@ -39796,350 +39765,7 @@ var render = function() {
                             _vm._v(
                               " " +
                                 _vm._s(food.name) +
-                                "\n                                        "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(3),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-group",
-                        attrs: {
-                          list: _vm.twoOrTreeForDay,
-                          group: "foods",
-                          element: "div"
-                        }
-                      },
-                      _vm._l(_vm.twoOrTreeForDay, function(food, index) {
-                        return _c(
-                          "li",
-                          {
-                            key: food.id,
-                            staticClass:
-                              "list-group-item list-group-item-action",
-                            attrs: { "data-id": food.id }
-                          },
-                          [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
-                            _vm._v(
-                              " " +
-                                _vm._s(food.name) +
-                                "\n                                    "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(4),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-group",
-                        attrs: {
-                          list: _vm.oneForWeek,
-                          group: "foods",
-                          element: "div"
-                        }
-                      },
-                      _vm._l(_vm.oneForWeek, function(food, index) {
-                        return _c(
-                          "li",
-                          {
-                            key: food.id,
-                            staticClass:
-                              "list-group-item list-group-item-action",
-                            attrs: { "data-id": food.id }
-                          },
-                          [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
-                            _vm._v(
-                              " " +
-                                _vm._s(food.name) +
-                                "\n                                    "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(5),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-group",
-                        attrs: {
-                          list: _vm.twoOrTreeForWeek,
-                          group: "foods",
-                          element: "div"
-                        }
-                      },
-                      _vm._l(_vm.twoOrTreeForWeek, function(food, index) {
-                        return _c(
-                          "li",
-                          {
-                            key: food.id,
-                            staticClass:
-                              "list-group-item list-group-item-action",
-                            attrs: { "data-id": food.id }
-                          },
-                          [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
-                            _vm._v(
-                              " " +
-                                _vm._s(food.name) +
-                                "\n                                    "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(6),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-group",
-                        attrs: {
-                          list: _vm.fourOrSixForWeek,
-                          group: "foods",
-                          element: "div"
-                        }
-                      },
-                      _vm._l(_vm.fourOrSixForWeek, function(food, index) {
-                        return _c(
-                          "li",
-                          {
-                            key: food.id,
-                            staticClass:
-                              "list-group-item list-group-item-action",
-                            attrs: { "data-id": food.id }
-                          },
-                          [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
-                            _vm._v(
-                              " " +
-                                _vm._s(food.name) +
-                                "\n                                    "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(7),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-group",
-                        attrs: {
-                          list: _vm.fifteenDays,
-                          group: "foods",
-                          element: "div"
-                        }
-                      },
-                      _vm._l(_vm.fifteenDays, function(food, index) {
-                        return _c(
-                          "li",
-                          {
-                            key: food.id,
-                            staticClass:
-                              "list-group-item list-group-item-action",
-                            attrs: { "data-id": food.id }
-                          },
-                          [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
-                            _vm._v(
-                              " " +
-                                _vm._s(food.name) +
-                                "\n                                    "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(8),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-group",
-                        attrs: {
-                          list: _vm.oneMonth,
-                          group: "foods",
-                          element: "div"
-                        }
-                      },
-                      _vm._l(_vm.oneMonth, function(food, index) {
-                        return _c(
-                          "li",
-                          {
-                            key: food.id,
-                            staticClass:
-                              "list-group-item list-group-item-action",
-                            attrs: { "data-id": food.id }
-                          },
-                          [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
-                            _vm._v(
-                              " " +
-                                _vm._s(food.name) +
-                                "\n                                    "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _vm._m(9),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-group",
-                        attrs: {
-                          list: _vm.never,
-                          group: "foods",
-                          element: "div"
-                        }
-                      },
-                      _vm._l(_vm.never, function(food, index) {
-                        return _c(
-                          "li",
-                          {
-                            key: food.id,
-                            staticClass:
-                              "list-group-item list-group-item-action",
-                            attrs: { "data-id": food.id }
-                          },
-                          [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
-                            _vm._v(
-                              " " +
-                                _vm._s(food.name) +
-                                "\n                                    "
+                                "\n                                "
                             )
                           ]
                         )
@@ -40152,10 +39778,416 @@ var render = function() {
               ])
             ])
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "card card-info" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.one_day,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.one_day, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id, name: "one_day[]" }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                        "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.twoOrTreeForDay,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.twoOrTreeForDay, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.oneForWeek,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.oneForWeek, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.twoOrTreeForWeek,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.twoOrTreeForWeek, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.fourOrSixForWeek,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.fourOrSixForWeek, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.fifteenDays,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.fifteenDays, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.oneMonth,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.oneMonth, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.never,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.never, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { width: "30px" },
+                                  attrs: {
+                                    src: "/images/foods/" + food.image,
+                                    alt: "'food.name'"
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(10)
       ])
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -40236,6 +40268,16 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h5", [_vm._v("Nunca")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("button", { staticClass: "btn btn-success" }, [
+        _vm._v("Guardar Datos")
+      ])
     ])
   }
 ]

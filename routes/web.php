@@ -75,6 +75,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Historia Clínica Nutricional
     Route::get('/patient/{slug}/NutritionalClinicalHistory/create', 'NutritionalClinicalHistoryController@create')->name('NutritionalClinicalHistory.create');
+    Route::get('/patient/{slug}/NutritionalClinicalHistory/edit', 'NutritionalClinicalHistoryController@edit')->name('NutritionalClinicalHistory.edit');
+    Route::post('patinet/{slug}/NutritionalClinicalHistory/created', 'NutritionalClinicalHistoryController@store')->name('NutritionalClinicalHistory.store');
+    Route::put('patinet/{slug}/NutritionalClinicalHistory/updated', 'NutritionalClinicalHistoryController@update')->name('NutritionalClinicalHistory.update');
+    Route::get('/patient/{slug}/FrequencyConsumption', 'NutritionalClinicalHistoryController@frequencyConsumption')->name('NutritionalClinicalHistory.frequency');
+
+    Route::post('/patient/{slug}/frequencyConsumption', 'NutritionalClinicalHistoryController@test')->name('test');
 
     //Signos Vitales
     Route::get('/patient/{slug}/create/VitalSigns', 'VitalSignsController@create')->name('VitalSigns.create');

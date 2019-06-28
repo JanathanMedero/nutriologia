@@ -52,7 +52,11 @@ Historia Clínica: {{ $patient->name }}
                         <div class="card-body">
                             <h5 class="card-title">Historia Clínica Nutricional</h5>
                             <p class="card-text">Formulario con detalles la actividad física diaria, alimentación y preferencia de alimentos.</p>
+                            @if($patient->LifeStyle)
+                            <a href="{{ route('NutritionalClinicalHistory.edit', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Editar Datos</a>
+                            @else
                             <a href="{{ route('NutritionalClinicalHistory.create', $patient->slug) }}" class="btn btn-primary text-white ml-1" type="button" class="btn btn-info">Capturar Datos</a>
+                            @endif
                         </div>
                     </div>
                 </div>

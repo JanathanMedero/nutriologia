@@ -12,7 +12,7 @@ Historia Clínica Nutricional
 				<h3 class="mb-0">Evaluación Médica Nutricional</h3>
 			</div>
 			<div class="card-body">
-				<form action="#" method="POST">
+				<form action="{{ route('NutritionalClinicalHistory.store', $patient->slug) }}" method="POST">
 					@csrf
 					<div class="row">
 						<div class="col-md-12">
@@ -23,24 +23,24 @@ Historia Clínica Nutricional
 						</div>
 						<div class="form-group col-md-6">
 							<label for="physical_activities">Detalle las actividades físicas diarias</label>
-							<textarea class="form-control" id="physical_activities" rows="3" style="resize: none;"></textarea>
+							<textarea class="form-control" name="physical_activities" id="physical_activities" rows="3" style="resize: none;"></textarea>
 						</div>
 						<div class="form-group col-md-4 px-4">
 							<label>Nivel de estrés</label>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="exampleRadios" id="high_stress" value="option1" checked>
+								<input class="form-check-input" type="radio" name="stress" id="high_stress" value="Mucho Estrés" checked>
 								<label class="form-check-label" for="high_stress">
 									Mucho Estrés
 								</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+								<input class="form-check-input" type="radio" name="stress" id="exampleRadios2" value="Estrés Regular">
 								<label class="form-check-label" for="exampleRadios2">
 									Estrés Regular
 								</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+								<input class="form-check-input" type="radio" name="stress" id="exampleRadios3" value="Poco Estrés">
 								<label class="form-check-label" for="exampleRadios3">
 									Poco Estrés
 								</label>
@@ -63,56 +63,56 @@ Historia Clínica Nutricional
 						</div>
 						<div class="col-md-12">
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="ensalada" type="checkbox" id="ensalada" value="Ensalada">
-								<label class="form-check-label" for="ensalada">Ensalada</label>
+								<input class="form-check-input" name="salad" type="checkbox" id="salad" {{ old('salad') ? 'checked' : null }}>
+								<label class="form-check-label" for="salad">Ensalada</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="carne_roja" type="checkbox" id="carne_roja" value="Carne Roja">
-								<label class="form-check-label" for="carne_roja">Carne roja</label>
+								<input class="form-check-input" name="red_meat" type="checkbox" id="red_meat" {{ old('red_meat') ? 'checked' : null }}>
+								<label class="form-check-label" for="red_meat">Carne roja</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="pescado" type="checkbox" id="Pescado" value="Pescado">
-								<label class="form-check-label" for="Pescado">Pescado</label>
+								<input class="form-check-input" name="fish" type="checkbox" id="fish" {{ old('fish') ? 'checked' : null }}>
+								<label class="form-check-label" for="fish">Pescado</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="sopa" type="checkbox" id="sopa" value="sopa">
-								<label class="form-check-label" for="sopa">Sopa</label>
+								<input class="form-check-input" name="soup" type="checkbox" id="soup" {{ old('soup') ? 'checked' : null }}>
+								<label class="form-check-label" for="soup">Sopa</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="pasta" type="checkbox" id="pasta" value="pasta">
+								<input class="form-check-input" name="pasta" type="checkbox" id="pasta" {{ old('pasta') ? 'checked' : null }}>
 								<label class="form-check-label" for="pasta">Pasta</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="verdura" type="checkbox" id="verdura" value="verdura">
-								<label class="form-check-label" for="verdura">Verduras</label>
+								<input class="form-check-input" name="vegetable" type="checkbox" id="vegetable" {{ old('vegetable') ? 'checked' : null }}>
+								<label class="form-check-label" for="vegetable">Verduras</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="fruta" type="checkbox" id="frutas" value="frutas">
-								<label class="form-check-label" for="frutas">Frutas</label>
+								<input class="form-check-input" name="fruit" type="checkbox" id="fruit" {{ old('fruit') ? 'checked' : null }}>
+								<label class="form-check-label" for="fruit">Frutas</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="vegetariana" type="checkbox" id="vegetariana" value="vegetariana">
-								<label class="form-check-label" for="vegetariana">Vegetariana</label>
+								<input class="form-check-input" name="vegetarian" type="checkbox" id="vegetarian" {{ old('vegetarian') ? 'checked' : null }}>
+								<label class="form-check-label" for="vegetarian">Vegetariana</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="vegana" type="checkbox" id="vegana" value="vegana">
-								<label class="form-check-label" for="vegana">Vegana</label>
+								<input class="form-check-input" name="vegan" type="checkbox" id="vegan" {{ old('vegan') ? 'checked' : null }}>
+								<label class="form-check-label" for="vegan">Vegana</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="ave" type="checkbox" id="aves" value="aves">
-								<label class="form-check-label" for="aves">Aves</label>
+								<input class="form-check-input" name="bird" type="checkbox" id="bird" {{ old('bird') ? 'checked' : null }}>
+								<label class="form-check-label" for="bird">Aves</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="cerdo" type="checkbox" id="cerdo" value="cerdo">
-								<label class="form-check-label" for="cerdo">Cerdo</label>
+								<input class="form-check-input" name="pork" type="checkbox" id="pork" {{ old('pork') ? 'checked' : null }}>
+								<label class="form-check-label" for="pork">Cerdo</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="mexicana" type="checkbox" id="mexicana" value="mexicana">
-								<label class="form-check-label" for="mexicana">Mexicana</label>
+								<input class="form-check-input" name="mexican" type="checkbox" id="mexican" {{ old('mexican') ? 'checked' : null }}>
+								<label class="form-check-label" for="mexican">Mexicana</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="marisco" type="checkbox" id="mariscos" value="mariscos">
-								<label class="form-check-label" for="mariscos">Mariscos</label>
+								<input class="form-check-input" name="shellfish" type="checkbox" id="shellfish" {{ old('shellfish') ? 'checked' : null }}>
+								<label class="form-check-label" for="shellfish">Mariscos</label>
 							</div>
 							<div class="col-md-12">
 								<hr>
@@ -138,31 +138,31 @@ Historia Clínica Nutricional
 						</div>
 						<div class="col-md-12">
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="diet_ensalada" type="checkbox" id="diet_ensalada" value="diet_ensalada">
-								<label class="form-check-label" for="diet_ensalada">Ensaladas</label>
+								<input class="form-check-input" name="diet_salad" type="checkbox" id="diet_salad" {{ old('diet_salad') ? 'checked' : null }}>
+								<label class="form-check-label" for="diet_salad">Ensaladas</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="diet_vegana" type="checkbox" id="diet_vegana" value="diet_vegana">
-								<label class="form-check-label" for="diet_vegana">Vegana</label>
+								<input class="form-check-input" name="diet_vegan" type="checkbox" id="diet_vegan" {{ old('diet_vegan') ? 'checked' : null }}>
+								<label class="form-check-label" for="diet_vegan">Vegana</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="diet_crudiveriana" type="checkbox" id="diet_crudiveriana" value="diet_crudiveriana">
-								<label class="form-check-label" for="diet_crudiveriana">Crudiveriana</label>
+								<input class="form-check-input" name="diet_crudiverian" type="checkbox" id="diet_crudiverian" {{ old('diet_crudiverian') ? 'checked' : null }}>
+								<label class="form-check-label" for="diet_crudiverian">Crudiveriana</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="diet_ovogetariana" type="checkbox" id="diet_ovogetariana" value="diet_ovogetariana">
-								<label class="form-check-label" for="diet_ovogetariana">Ovogetariana</label>
+								<input class="form-check-input" name="diet_ovogetarian" type="checkbox" id="diet_ovogetarian" {{ old('diet_ovogetarian') ? 'checked' : null }}>
+								<label class="form-check-label" for="diet_ovogetarian">Ovogetariana</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="diet_ovolactovegetariana" type="checkbox" id="diet_ovolactovegetariana" value="diet_ovolactovegetariana">
-								<label class="form-check-label" for="diet_ovolactovegetariana">Ovolactovegetariana</label>
+								<input class="form-check-input" name="diet_ovolactovegetarian" type="checkbox" id="diet_ovolactovegetarian" {{ old('diet_ovolactovegetarian') ? 'checked' : null }}>
+								<label class="form-check-label" for="diet_ovolactovegetarian">Ovolactovegetariana</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="diet_mediterranea" type="checkbox" id="diet_mediterranea" value="diet_mediterranea">
-								<label class="form-check-label" for="diet_mediterranea">Meditarránea</label>
+								<input class="form-check-input" name="diet_mediterranean" type="checkbox" id="diet_mediterranean" {{ old('diet_mediterranean') ? 'checked' : null }}>
+								<label class="form-check-label" for="diet_mediterranean">Meditarránea</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="other" type="checkbox" id="other" value="other">
+								<input class="form-check-input" name="other" type="checkbox" id="other" {{ old('other') ? 'checked' : null }}>
 								<label class="form-check-label" for="other">Otra</label>
 							</div>
 						</div>
@@ -177,19 +177,19 @@ Historia Clínica Nutricional
 								</div>
 								<div class="col-md-12">
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" name="vitamins" type="checkbox" id="vitamins" value="vitamins">
+										<input class="form-check-input" name="vitamins" type="checkbox" id="vitamins" {{ old('vitamins') ? 'checked' : null }}>
 										<label class="form-check-label" for="vitamins">Vitaminas</label>
 									</div>
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" name="protein" type="checkbox" id="protein" value="protein">
-										<label class="form-check-label" for="protein">Proteínas</label>
+										<input class="form-check-input" name="proteins" type="checkbox" id="proteins" {{ old('proteins') ? 'checked' : null }}>
+										<label class="form-check-label" for="proteins">Proteínas</label>
 									</div>
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" name="aminoacids" type="checkbox" id="aminoacids" value="aminoacids">
+										<input class="form-check-input" name="aminoacids" type="checkbox" id="aminoacids" {{ old('aminoacids') ? 'checked' : null }}>
 										<label class="form-check-label" for="aminoacids">Aminoácidos</label>
 									</div>
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" name="none" type="checkbox" id="none" value="none">
+										<input class="form-check-input" name="none" type="checkbox" id="none" v{{ old('none') ? 'checked' : null }}>
 										<label class="form-check-label" for="none">Ninguno</label>
 									</div>
 								</div>
@@ -205,31 +205,31 @@ Historia Clínica Nutricional
 						</div>
 
 						<div class="col-md-2 d-flex align-items-center justify-content-center">
-							<label for="aleaginosas" class="mb-3">Aleaginosas</label>	
+							<label for="oilseed_allergy" class="mb-3">Aleaginosas</label>	
 						</div>
 						<div class="form-group col-md-10">
-							<input type="text" class="form-control" id="aleaginosas" placeholder="Detalles de la alergia." value="{{ old('aleaginosas') }}" name="aleaginosas">
+							<input type="text" class="form-control" id="oilseed_allergy" placeholder="Detalles de la alergia." value="{{ old('oilseed_allergy') }}" name="oilseed_allergy">
 						</div>
 
 						<div class="col-md-2 d-flex align-items-center justify-content-center">
-							<label for="fruits" class="mb-3">Frutas</label>	
+							<label for="fruit_allergy" class="mb-3">Frutas</label>	
 						</div>
 						<div class="form-group col-md-10">
-							<input type="text" class="form-control" id="fruits" placeholder="Detalles de la alergia." value="{{ old('fruits') }}" name="fruits">
+							<input type="text" class="form-control" id="fruit_allergy" placeholder="Detalles de la alergia." value="{{ old('fruit_allergy') }}" name="fruit_allergy">
 						</div>
 
 						<div class="col-md-2 d-flex align-items-center justify-content-center">
-							<label for="vegetables" class="mb-3">Vegetales</label>	
+							<label for="vegetable_allergy" class="mb-3">Vegetales</label>	
 						</div>
 						<div class="form-group col-md-10">
-							<input type="text" class="form-control" id="vegetables" placeholder="Detalles de la alergia." value="{{ old('vegetables') }}" name="vegetables">
+							<input type="text" class="form-control" id="vegetable_allergy" placeholder="Detalles de la alergia." value="{{ old('vegetable_allergy') }}" name="vegetable_allergy">
 						</div>
 
 						<div class="col-md-2 d-flex align-items-center justify-content-center">
-							<label for="aoa" class="mb-3">AOA</label>	
+							<label for="AOA_allergy" class="mb-3">AOA</label>	
 						</div>
 						<div class="form-group col-md-10">
-							<input type="text" class="form-control" id="aoa" placeholder="Detalles de la alergia." value="{{ old('aoa') }}" name="aoa">
+							<input type="text" class="form-control" id="AOA_allergy" placeholder="Detalles de la alergia." value="{{ old('AOA_allergy') }}" name="AOA_allergy">
 						</div>
 
 						<div class="col-md-12">
@@ -278,20 +278,14 @@ Historia Clínica Nutricional
 							<hr>
 						</div>
 					</div>
-
-					{{-- Componente de alimentos --}}
-
-					<div id="foods">
-						<foods :foods="{{ $foods }}"></foods>
+					<div class="row">
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-success">Guardar Datos</button>
+						</div>
 					</div>
-
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-@endsection
-
-@section('extra-js')
-<script src="{{ asset('js/app.js') }}"></script>
 @endsection

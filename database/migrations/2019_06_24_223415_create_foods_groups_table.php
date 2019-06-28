@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFoodsTable extends Migration
+class CreateFoodsGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreateFoodsTable extends Migration
      */
     public function up()
     {
-        Schema::create('foods', function (Blueprint $table) {
-            $table->unsignedInteger('group_id');
-
-            $table->foreign('group_id')
-            ->references('id')->on('foods_groups');
-
+        Schema::create('foods_groups', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('name');
-            $table->string('icon');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ class CreateFoodsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('foods');
+        Schema::dropIfExists('foods_groups');
     }
 }

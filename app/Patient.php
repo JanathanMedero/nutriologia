@@ -66,4 +66,24 @@ class Patient extends Model
 		{
 			return $this->hasOne('App\VitalSign');
 		}
+		public function LifeStyle()
+		{
+			return $this->hasOne('App\LifeStyle');
+		}
+		public function Feeding()
+		{
+			return $this->hasOne('App\Feeding');
+		}
+		public function SpecificDiet()
+		{
+			return $this->hasOne('App\SpecificDiet');
+		}
+		public function FoodAllergy()
+		{
+			return $this->hasOne('App\FoodAllergy');
+		}
+		public function ChangeWeight()
+		{
+			return $this->hasOne('App\ChangeWeight');
+		}
 }
