@@ -86,4 +86,8 @@ class Patient extends Model
 		{
 			return $this->hasOne('App\ChangeWeight');
 		}
+		public function FrequencyConsumption()
+		{
+			return $this->hasMany('App\FrequencyConsumption');
+		}
 }

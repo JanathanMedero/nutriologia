@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Food;
+use Illuminate\Database\Seeder;
 
-class FoodTableSeeder extends Seeder
+class FoodsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,62 +14,62 @@ class FoodTableSeeder extends Seeder
     {
         Food::create([
         	'name' => 'Café',
-        	'image' => 'coffe.png'
+        	'group_id' => 2,
         ]);
 
         Food::create([
         	'name' => 'Refresco',
-        	'image' => 'soda.png'
+        	'group_id' => 1,
         ]);
 
         Food::create([
         	'name' => 'Tacos',
-        	'image' => 'taco.png'
+        	'group_id' => 4,
         ]);
 
         Food::create([
         	'name' => 'Pan Dulce',
-        	'image' => 'bread.png'
+        	'group_id' => 2,
         ]);
 
         Food::create([
         	'name' => 'Cerveza',
-        	'image' => 'beer.png'
+        	'group_id' => 5,
         ]);
 
         Food::create([
         	'name' => 'Pizza',
-        	'image' => 'pizza.png'
+        	'group_id' => 3,
         ]);
 
         Food::create([
         	'name' => 'Comida Rapida',
-        	'image' => 'hot_dog.png'
+        	'group_id' => 1,
         ]);
 
         Food::create([
         	'name' => 'Nieve',
-        	'image' => 'frozen_food.png'
+        	'group_id' => 3,
         ]);
 
         Food::create([
         	'name' => 'Galletas',
-        	'image' => 'cookies.png'
+        	'group_id' => 2,
         ]);
 
         Food::create([
         	'name' => 'Chocolate',
-        	'image' => 'chocolate.png'
+        	'group_id' => 5,
         ]);
 
         Food::create([
         	'name' => 'Pan de Caja',
-        	'image' => 'bread_box.png'
+        	'group_id' => 4,
         ]);
 
         Food::create([
         	'name' => 'Restaurante',
-        	'image' => 'restaurant.png'
+        	'group_id' => 3,
         ]);
     }
 }

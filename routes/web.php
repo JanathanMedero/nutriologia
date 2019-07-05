@@ -78,9 +78,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/patient/{slug}/NutritionalClinicalHistory/edit', 'NutritionalClinicalHistoryController@edit')->name('NutritionalClinicalHistory.edit');
     Route::post('patinet/{slug}/NutritionalClinicalHistory/created', 'NutritionalClinicalHistoryController@store')->name('NutritionalClinicalHistory.store');
     Route::put('patinet/{slug}/NutritionalClinicalHistory/updated', 'NutritionalClinicalHistoryController@update')->name('NutritionalClinicalHistory.update');
-    Route::get('/patient/{slug}/FrequencyConsumption', 'NutritionalClinicalHistoryController@frequencyConsumption')->name('NutritionalClinicalHistory.frequency');
+    Route::get('/patient/{slug}/FrequencyConsumption/create', 'NutritionalClinicalHistoryController@frequencyConsumptionCreate')->name('frequencyConsumption.create');
+    Route::get('/patient/{slug}/FrequencyConsumption/edit', 'NutritionalClinicalHistoryController@frequencyConsumptionEdit')->name('frequencyConsumption.edit');
+    Route::delete('/FrequencyConsumption/delete/{id}', 'NutritionalClinicalHistoryController@frequencyConsumptionDelete')->name('frequencyConsumption.delete');
+
+    //ChartJS
+    Route::get('/patient/{slug}/frequencyConsumption/Graphic', 'ChartController@show')->name('chart.show');
 
     Route::post('/patient/{slug}/frequencyConsumption', 'NutritionalClinicalHistoryController@test')->name('test');
+
+    //Registro de alimentos
+    Route::get('/foods', 'FoodController@index')->name('food.index');
+    Route::post('/foodgroup/created', 'FoodController@storeFoodGroup')->name('foodGroup.store');
+    Route::post('/food/created', 'FoodController@storeFood')->name('food.store');
 
     //Signos Vitales
     Route::get('/patient/{slug}/create/VitalSigns', 'VitalSignsController@create')->name('VitalSigns.create');
@@ -95,5 +105,9 @@ Route::group(['middleware' => 'auth'], function () {
     // Crud nutriologos
     Route::get('/nutritionists', 'NutritionistController@index')->name('nutritionists.index');
     Route::put('/nutritionists/update/status/{slug}', 'NutritionistController@update')->name('nutritionists.update');
+
+    //Routes axios
+    Route::post('/frequencyConsumption/add', 'NutritionalClinicalHistoryController@frequencyConsumptionAdd')->name('frequencyConsumption.store');
+    Route::delete('/frequencyConsumption/delete/{id}', 'NutritionalClinicalHistoryController@frequencyConsumptionDelete')->name('frequencyConsumption.delete');
 
 });

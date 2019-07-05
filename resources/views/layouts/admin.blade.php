@@ -12,7 +12,7 @@
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="{{ asset('admin-lte/font-awesome/css/font-awesome.min.css') }}">
+	<script src="https://kit.fontawesome.com/dcd99a1689.js"></script>
 	<!-- Ionicons -->
 	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	<!-- Theme style -->
@@ -113,6 +113,16 @@
 			          		</a>
 			          	</li>
 			          	@endif
+			          	@if($user->hasRoles('admin'))
+						<li class="nav-item">
+			          		<a href="{{ route('food.index') }}" class="nav-link {{ request()->is('foods') ? 'active' : '' }} ">
+			          			<i class="nav-icon fa fa-utensils" aria-hidden="true"></i>
+			          			<p>
+			          				Alimentos
+			          			</p>
+			          		</a>
+			          	</li>
+			          	@endif
 			          	<li class="nav-item">
 			          		<a href="{{ route('patients.index') }}" class="nav-link {{ request()->is('patients') ? 'active' : '' }} ">
 			          			<i class="nav-icon fa fa-users" aria-hidden="true"></i>
@@ -121,14 +131,16 @@
 			          			</p>
 			          		</a>
 			          	</li>
+			          	@if($user->hasRoles('user'))
 			          	<li class="nav-item">
 			          		<a href="{{ route('event.index') }}" class="nav-link {{ request()->is('appointments') ? 'active' : '' }} ">
-			          			<i class="nav-icon fa fa-users" aria-hidden="true"></i>
+			          			<i class="nav-icon fa fa-calendar-alt" aria-hidden="true"></i>
 			          			<p>
 			          				Citas
 			          			</p>
 			          		</a>
 			          	</li>
+			          	@endif
           			</ul>
       			</nav>
       <!-- /.sidebar-menu -->

@@ -20,9 +20,14 @@ class CreateFrequencyConsumptionsTable extends Migration
             ->references('id')->on('patients')
             ->onDelete('cascade');
 
+            $table->unsignedInteger('food_group');
+
+            $table->foreign('food_group')
+            ->references('id')->on('foods_groups');
+
             $table->Increments('id');
             $table->string('food_name');
-            $table->integer('food_group');
+            $table->string('frecuency');
             $table->timestamps();
         });
     }

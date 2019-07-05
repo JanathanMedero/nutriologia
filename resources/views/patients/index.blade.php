@@ -10,9 +10,11 @@ Pacientes
 	<div class="col-md-10 px-4">
 		<h1>Pacientes</h1>
 	</div>
+  @if($user->hasRoles('user'))
 	<div class="col-md-2 mt-2 text-center">
 		<a href="{{ route('patients.create') }}" class="btn btn-primary"><i class="fa fa-user"></i> Nuevo Paciente</a>
 	</div>
+  @endif
 	{{-- Inicia tabla de pacientes --}}
 	<div class="col-md-12">
 		<div class="card">

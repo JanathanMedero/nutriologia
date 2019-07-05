@@ -7,6 +7,18 @@ Editar - Historia Clínica Nutricional
 @section('content')
 <div class="row">
 	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-12 d-flex justify-content-end mt-4">
+				@if($patient->FrequencyConsumption->isEmpty() == true)
+				<a href="{{ route('frequencyConsumption.create', $patient->slug) }}" class="btn btn-success mx-2 text-white">Ingresar Frecuencia de Consumo
+				</a>
+				@else
+				<a href="{{ route('chart.show', $patient->slug) }}" class="btn btn-primary mx-2 text-white">Generar Gráfica de frecuencia de consumo</a>
+				<a href="{{ route('frequencyConsumption.edit', $patient->slug) }}" class="btn btn-warning mx-2 text-white">Frecuencia de Consumo
+				</a>
+				@endif
+			</div>
+		</div>
 		<div class="card card-primary mt-4">
 			<div class="card-header">
 				<h3 class="mb-0">Evaluación Médica Nutricional</h3>
@@ -280,9 +292,7 @@ Editar - Historia Clínica Nutricional
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-3">
-							<button type="submit" class="btn btn-success">Guardar Datos</button>
-						</div>
+						<button type="submit" class="btn btn-success">Guardar Datos</button>
 					</div>
 				</form>
 			</div>

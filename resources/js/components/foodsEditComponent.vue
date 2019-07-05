@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="addTest()">
+	<form v-on:submit.prevent="editFrequency()">
         <div class="row">
             <div class="col-md-6">
                 <div class="card card-info">
@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                            <draggable class="list-group" :list="foodNews" group="foods" :element="'div'">
+                                <draggable class="list-group" :list="foodNews" group="foods" :element="'div'">
                                     <li v-for="(food, index) in foodNews" class="list-group-item list-group-item-action" :key="food.id" :data-id="food.id">
                                         {{ food.name }}
                                     </li>
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="card-body">
                                         <draggable class="list-group" :list="one_day" group="foods" :element="'div'">
-                                            <li v-for="(food, index) in one_day" class="list-group-item list-group-item-action" :key="food.id" :data-id="food.id">
+                                            <li v-for="(food, index) in one_day" class="list-group-item list-group-item-action" :key="food.id" :data-id="food.id" name="one_day[]">
                                                {{ food.name }}
                                             </li>
                                         </draggable>
@@ -144,18 +144,21 @@
 </template>
 
 <script>
-    import draggable from 'vuedraggable'
+	import draggable from 'vuedraggable'
     import axios from 'axios'
+
     export default {
         components: {
             draggable,
         },
-        props:['foods', 'patient'],
+        props: ['foods', 'patient', 'frequency'],
+
         data(){
-            return{
-                foodNews: this.foods,
-                patient_id: this.patient.id,
-                patient_slug: this.patient.slug,
+        	return{
+        		foodNews: this.foods,
+        		frequencyNews: this.frequency,
+        		patient_slug: this.patient.slug,
+        		patient_id: this.patient.id,
                 one_day: [],
                 twoOrTreeForDay: [],
                 oneForWeek: [],
@@ -164,10 +167,19 @@
                 fifteenDays: [],
                 oneMonth: [],
                 never: []
-            }
+        	}
         },
         methods:{
-            addTest(){
+        	editFrequency(){
+        		for (let i = 0; i < this.frequencyNews.length; i++) {
+                    axios.delete('/frequencyConsumption/delete/'+this.patient_id, {
+                }).then(function (response) {
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+                }
+
                 for (let i = 0; i < this.one_day.length; i++) {
                     axios.post('/frequencyConsumption/add', {
                     patient_id: this.patient_id,
@@ -278,8 +290,10 @@
                     console.log(error);
                   });
                 }
+                
                 window.location.href='http://nutriologia.com/patient/'+this.patient.slug+'/ClinicHistory';
-            }
-        },
+        	}
+        }
     }
+        
 </script>

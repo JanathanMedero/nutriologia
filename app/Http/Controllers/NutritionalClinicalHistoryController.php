@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Food;
-use App\Patient;
-use App\LifeStyle;
-use App\Feeding;
-use App\SpecificDiet;
-use App\FoodAllergy;
 use App\ChangeWeight;
-use DB;
+use App\Feeding;
+use App\Food;
+use App\FoodAllergy;
+use App\FrequencyConsumption;
+use App\LifeStyle;
+use App\Patient;
+use App\SpecificDiet;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class NutritionalClinicalHistoryController extends Controller
@@ -104,17 +105,6 @@ class NutritionalClinicalHistoryController extends Controller
     		}
     }
 
-    public function frequencyConsumption($slug)
-    {
-    	$patient = Patient::where('slug', $slug)->first();
-
-    	$user = Auth::user();
-
-    	$foods = Food::all();
-
-    	return view('patients.NutritionalClinicalHistory.frequency_consumption', compact('patient', 'user', 'foods'));
-    }
-
     public function store(Request $request, $slug)
     {
     	$patient = Patient::where('slug', $slug)->first();
@@ -193,8 +183,47 @@ class NutritionalClinicalHistoryController extends Controller
     		}
     }
 
-    public function test(Request $request, $slug)
+    public function frequencyConsumptionCreate($slug)
     {
-    	dd($request->one_day);
+        $patient = Patient::where('slug', $slug)->first();
+
+        $user = Auth::user();
+
+        $foods = Food::all();
+
+        $frequency = FrequencyConsumption::where('patient_id', $patient->id)->get();
+
+        return view('patients.NutritionalClinicalHistory.FrequencyConsumption.create', compact('patient', 'user', 'foods', 'frequency'));
+    } 
+
+    public function frequencyConsumptionEdit($slug)
+    {
+        $patient = Patient::where('slug', $slug)->first();
+
+        $user = Auth::user();
+
+        $foods = Food::all();
+
+        $frequency = FrequencyConsumption::where('patient_id', $patient->id)->get();
+
+        return view('patients.NutritionalClinicalHistory.FrequencyConsumption.edit', compact('patient', 'user', 'foods', 'frequency'));
+    }
+
+    public function frequencyConsumptionAdd(Request $request)
+    {
+     //    $patient = Patient::where('slug', $slug)->first();
+
+    FrequencyConsumption::create($request->all());
+
+     //    return redirect()->route('ClinicHistoryPatient', $patient->slug)->with('success', 'Frecuencia de consumo creada');
+    }
+
+    public function frequencyConsumptionDelete($id)
+    {
+        $frequency = FrequencyConsumption::where('id', $id)->first();
+
+        $frequency->delete();
+
+        return back()->with('success', 'Alimento eliminado');
     }
 }

@@ -113,7 +113,6 @@ var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
 var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/axios/lib/helpers/isURLSameOrigin.js");
 var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/axios/lib/core/createError.js");
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ "./node_modules/axios/lib/helpers/btoa.js");
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -125,22 +124,6 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ( true &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
 
     // HTTP basic authentication
     if (config.auth) {
@@ -155,8 +138,8 @@ module.exports = function xhrAdapter(config) {
     request.timeout = config.timeout;
 
     // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
         return;
       }
 
@@ -173,9 +156,8 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        status: request.status,
+        statusText: request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
@@ -984,54 +966,6 @@ module.exports = function bind(fn, thisArg) {
     return fn.apply(thisArg, args);
   };
 };
-
-
-/***/ }),
-
-/***/ "./node_modules/axios/lib/helpers/btoa.js":
-/*!************************************************!*\
-  !*** ./node_modules/axios/lib/helpers/btoa.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
 
 
 /***/ }),
@@ -1922,7 +1856,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       foodNews: this.foods,
-      patient: this.patient.id,
+      patient_id: this.patient.id,
+      patient_slug: this.patient.slug,
       one_day: [],
       twoOrTreeForDay: [],
       oneForWeek: [],
@@ -1935,10 +1870,395 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addTest: function addTest() {
-      // for (var i = this.one_day.length - 1; i >= 0; i++) {
-      //     axios.post('')
-      // }
-      console.log(this.one_day); //console.log(this.patient.id);
+      for (var i = 0; i < this.one_day.length; i++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.one_day[i].name,
+          food_group: this.one_day[i].group_id,
+          frecuency: '1 véz al día'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i = 0; _i < this.twoOrTreeForDay.length; _i++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.twoOrTreeForDay[_i].name,
+          food_group: this.twoOrTreeForDay[_i].group_id,
+          frecuency: '2 - 3 veces al día'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i2 = 0; _i2 < this.oneForWeek.length; _i2++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.oneForWeek[_i2].name,
+          food_group: this.oneForWeek[_i2].group_id,
+          frecuency: '1 véz por semana'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i3 = 0; _i3 < this.twoOrTreeForWeek.length; _i3++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.twoOrTreeForWeek[_i3].name,
+          food_group: this.twoOrTreeForWeek[_i3].group_id,
+          frecuency: '2 - 3 veces por semana'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i4 = 0; _i4 < this.fourOrSixForWeek.length; _i4++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.fourOrSixForWeek[_i4].name,
+          food_group: this.fourOrSixForWeek[_i4].group_id,
+          frecuency: '4 - 6 veces por semana'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i5 = 0; _i5 < this.fifteenDays.length; _i5++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.fifteenDays[_i5].name,
+          food_group: this.fifteenDays[_i5].group_id,
+          frecuency: 'cada 15 días'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i6 = 0; _i6 < this.oneMonth.length; _i6++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.oneMonth[_i6].name,
+          food_group: this.oneMonth[_i6].group_id,
+          frecuency: '1 véz al mes'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i7 = 0; _i7 < this.never.length; _i7++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.never[_i7].name,
+          food_group: this.never[_i7].group_id,
+          frecuency: 'Nunca'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      window.location.href = 'http://nutriologia.com/patient/' + this.patient.slug + '/ClinicHistory';
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/foodsEditComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/foodsEditComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
+  props: ['foods', 'patient', 'frequency'],
+  data: function data() {
+    return {
+      foodNews: this.foods,
+      frequencyNews: this.frequency,
+      patient_slug: this.patient.slug,
+      patient_id: this.patient.id,
+      one_day: [],
+      twoOrTreeForDay: [],
+      oneForWeek: [],
+      twoOrTreeForWeek: [],
+      fourOrSixForWeek: [],
+      fifteenDays: [],
+      oneMonth: [],
+      never: []
+    };
+  },
+  methods: {
+    editFrequency: function editFrequency() {
+      for (var i = 0; i < this.frequencyNews.length; i++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]('/frequencyConsumption/delete/' + this.patient_id, {}).then(function (response) {})["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i = 0; _i < this.one_day.length; _i++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.one_day[_i].name,
+          food_group: this.one_day[_i].group_id,
+          frecuency: '1 véz al día'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i2 = 0; _i2 < this.twoOrTreeForDay.length; _i2++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.twoOrTreeForDay[_i2].name,
+          food_group: this.twoOrTreeForDay[_i2].group_id,
+          frecuency: '2 - 3 veces al día'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i3 = 0; _i3 < this.oneForWeek.length; _i3++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.oneForWeek[_i3].name,
+          food_group: this.oneForWeek[_i3].group_id,
+          frecuency: '1 véz por semana'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i4 = 0; _i4 < this.twoOrTreeForWeek.length; _i4++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.twoOrTreeForWeek[_i4].name,
+          food_group: this.twoOrTreeForWeek[_i4].group_id,
+          frecuency: '2 - 3 veces por semana'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i5 = 0; _i5 < this.fourOrSixForWeek.length; _i5++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.fourOrSixForWeek[_i5].name,
+          food_group: this.fourOrSixForWeek[_i5].group_id,
+          frecuency: '4 - 6 veces por semana'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i6 = 0; _i6 < this.fifteenDays.length; _i6++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.fifteenDays[_i6].name,
+          food_group: this.fifteenDays[_i6].group_id,
+          frecuency: 'cada 15 días'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i7 = 0; _i7 < this.oneMonth.length; _i7++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.oneMonth[_i7].name,
+          food_group: this.oneMonth[_i7].group_id,
+          frecuency: '1 véz al mes'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      for (var _i8 = 0; _i8 < this.never.length; _i8++) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/frequencyConsumption/add', {
+          patient_id: this.patient_id,
+          food_name: this.never[_i8].name,
+          food_group: this.never[_i8].group_id,
+          frecuency: 'Nunca'
+        }).then(function (response) {//
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      window.location.href = 'http://nutriologia.com/patient/' + this.patient.slug + '/ClinicHistory';
     }
   }
 });
@@ -6404,19 +6724,9 @@ __webpack_require__.r(__webpack_exports__);
  * @license  MIT
  */
 
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
@@ -39755,17 +40065,536 @@ var render = function() {
                             attrs: { "data-id": food.id }
                           },
                           [
-                            _c("img", {
-                              staticStyle: { width: "30px" },
-                              attrs: {
-                                src: "/images/foods/" + food.image,
-                                alt: "'food.name'"
-                              }
-                            }),
                             _vm._v(
-                              " " +
+                              "\n                                    " +
                                 _vm._s(food.name) +
                                 "\n                                "
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ],
+                  1
+                )
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "card card-info" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.one_day,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.one_day, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                           " +
+                                    _vm._s(food.name) +
+                                    "\n                                        "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.twoOrTreeForDay,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.twoOrTreeForDay, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.oneForWeek,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.oneForWeek, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.twoOrTreeForWeek,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.twoOrTreeForWeek, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.fourOrSixForWeek,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.fourOrSixForWeek, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.fifteenDays,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.fifteenDays, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.oneMonth,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.oneMonth, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c(
+                          "draggable",
+                          {
+                            staticClass: "list-group",
+                            attrs: {
+                              list: _vm.never,
+                              group: "foods",
+                              element: "div"
+                            }
+                          },
+                          _vm._l(_vm.never, function(food, index) {
+                            return _c(
+                              "li",
+                              {
+                                key: food.id,
+                                staticClass:
+                                  "list-group-item list-group-item-action",
+                                attrs: { "data-id": food.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(food.name) +
+                                    "\n                                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(10)
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "mb-0" }, [_vm._v("Tabla de alimentos")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "mb-0" }, [_vm._v("Frecuencia de Consumo")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("1 véz al día")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("2 - 3 veces al día")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("1 a la semana")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("2 - 3 veces a la semana")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("4 - 6 veces a la semana")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("Cada 15 días")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("1 véz al mes")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("Nunca")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("button", { staticClass: "btn btn-success" }, [
+        _vm._v("Guardar Datos")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/foodsEditComponent.vue?vue&type=template&id=2647bac9&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/foodsEditComponent.vue?vue&type=template&id=2647bac9& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.editFrequency()
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "card card-info" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-md-12" },
+                  [
+                    _c(
+                      "draggable",
+                      {
+                        staticClass: "list-group",
+                        attrs: {
+                          list: _vm.foodNews,
+                          group: "foods",
+                          element: "div"
+                        }
+                      },
+                      _vm._l(_vm.foodNews, function(food, index) {
+                        return _c(
+                          "li",
+                          {
+                            key: food.id,
+                            staticClass:
+                              "list-group-item list-group-item-action",
+                            attrs: { "data-id": food.id }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(food.name) +
+                                "\n                                    "
                             )
                           ]
                         )
@@ -39814,17 +40643,10 @@ var render = function() {
                                 attrs: { "data-id": food.id, name: "one_day[]" }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                               " +
                                     _vm._s(food.name) +
-                                    "\n                                        "
+                                    "\n                                            "
                                 )
                               ]
                             )
@@ -39863,17 +40685,10 @@ var render = function() {
                                 attrs: { "data-id": food.id }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                            " +
                                     _vm._s(food.name) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 )
                               ]
                             )
@@ -39912,17 +40727,10 @@ var render = function() {
                                 attrs: { "data-id": food.id }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                                " +
                                     _vm._s(food.name) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 )
                               ]
                             )
@@ -39961,17 +40769,10 @@ var render = function() {
                                 attrs: { "data-id": food.id }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                                " +
                                     _vm._s(food.name) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 )
                               ]
                             )
@@ -40010,17 +40811,10 @@ var render = function() {
                                 attrs: { "data-id": food.id }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                                " +
                                     _vm._s(food.name) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 )
                               ]
                             )
@@ -40059,17 +40853,10 @@ var render = function() {
                                 attrs: { "data-id": food.id }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                                " +
                                     _vm._s(food.name) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 )
                               ]
                             )
@@ -40108,17 +40895,10 @@ var render = function() {
                                 attrs: { "data-id": food.id }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                                " +
                                     _vm._s(food.name) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 )
                               ]
                             )
@@ -40157,17 +40937,10 @@ var render = function() {
                                 attrs: { "data-id": food.id }
                               },
                               [
-                                _c("img", {
-                                  staticStyle: { width: "30px" },
-                                  attrs: {
-                                    src: "/images/foods/" + food.image,
-                                    alt: "'food.name'"
-                                  }
-                                }),
                                 _vm._v(
-                                  " " +
+                                  "\n                                                " +
                                     _vm._s(food.name) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 )
                               ]
                             )
@@ -55720,6 +56493,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('foods', __webpack_require__(/*! ./components/FoodsComponent.vue */ "./resources/js/components/FoodsComponent.vue")["default"]);
+Vue.component('foods-edit', __webpack_require__(/*! ./components/foodsEditComponent.vue */ "./resources/js/components/foodsEditComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -55728,6 +56502,9 @@ Vue.component('foods', __webpack_require__(/*! ./components/FoodsComponent.vue *
 
 var foods = new Vue({
   el: '#foods'
+});
+var foodsEdit = new Vue({
+  el: '#foodsEdit'
 });
 
 /***/ }),
@@ -55854,6 +56631,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FoodsComponent_vue_vue_type_template_id_665393d3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FoodsComponent_vue_vue_type_template_id_665393d3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/foodsEditComponent.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/foodsEditComponent.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _foodsEditComponent_vue_vue_type_template_id_2647bac9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./foodsEditComponent.vue?vue&type=template&id=2647bac9& */ "./resources/js/components/foodsEditComponent.vue?vue&type=template&id=2647bac9&");
+/* harmony import */ var _foodsEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./foodsEditComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/foodsEditComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _foodsEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _foodsEditComponent_vue_vue_type_template_id_2647bac9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _foodsEditComponent_vue_vue_type_template_id_2647bac9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/foodsEditComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/foodsEditComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/foodsEditComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_foodsEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./foodsEditComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/foodsEditComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_foodsEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/foodsEditComponent.vue?vue&type=template&id=2647bac9&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/foodsEditComponent.vue?vue&type=template&id=2647bac9& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_foodsEditComponent_vue_vue_type_template_id_2647bac9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./foodsEditComponent.vue?vue&type=template&id=2647bac9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/foodsEditComponent.vue?vue&type=template&id=2647bac9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_foodsEditComponent_vue_vue_type_template_id_2647bac9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_foodsEditComponent_vue_vue_type_template_id_2647bac9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

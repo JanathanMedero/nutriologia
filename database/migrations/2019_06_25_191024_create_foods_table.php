@@ -21,7 +21,7 @@ class CreateFoodsTable extends Migration
 
             $table->Increments('id');
             $table->string('name');
-            $table->string('icon');
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

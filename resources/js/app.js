@@ -20,6 +20,7 @@
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('foods', require('./components/FoodsComponent.vue').default);
+Vue.component('foods-edit', require('./components/foodsEditComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,5 +30,9 @@ Vue.component('foods', require('./components/FoodsComponent.vue').default);
 
 
  const foods = new Vue({
- 	el: '#foods'
+ 	el: '#foods',
+ });
+
+  const foodsEdit = new Vue({
+ 	el: '#foodsEdit',
  });
